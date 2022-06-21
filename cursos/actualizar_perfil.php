@@ -235,11 +235,11 @@ $datos = $result_info;
                                     <label class="control-label" for="imputRol">Rol</label>
                                     <select class="form-control select" name="txtRol" id="txtRol">
                                         <option value="<?php echo $result_info['rol']; ?>" selected="true" ><?php echo $result_info['rol']; ?></option>
-                                        <option value="1">Administrador</option>
-                                        <option value="2">Aprendiz</option>
-                                        <option value="3">Orientador</option>
-                                        <option value="4">Gestor</option>
-                                        <option value="5">Certofocación</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
                                     </select>              
                                   </div>
                                 </div>

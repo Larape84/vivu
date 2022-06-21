@@ -172,8 +172,7 @@
 			$obj= new conectar();
 			$conexion=$obj->conexion();
 			$tildes = $conexion->query("SET NAMES 'utf8'");
-			$sql="UPDATE users SET nombres='$datos[1]',apellidos='$datos[2]',sexo='$datos[3]',
-			tipodocumento='$datos[7]',documento='$datos[8]',fechaNacimiento='$datos[4]',telefono='$datos[9]',tipoPoblacion='$datos[11]',municipio='$datos[10]',email='$datos[5]',password='$datos[6]',rol='$datos[13]' WHERE id = '$datos[0]'";
+			$sql="UPDATE users SET nombres='$datos[1]',apellidos='$datos[2]',sexo='$datos[3]',tipodocumento='$datos[7]',documento='$datos[8]',fechaNacimiento='$datos[4]',telefono='$datos[9]',tipoPoblacion='$datos[11]',municipio='$datos[10]',email='$datos[5]',password='$datos[6]',rol='$datos[13]' WHERE id = '$datos[0]'";
 			return mysqli_query($conexion,$sql);
 		}
 
