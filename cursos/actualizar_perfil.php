@@ -130,7 +130,7 @@ $datos = $result_info;
                         <?php if ($num_rows > 0):?>
                             <div class="col-md-12">
                                 <hr>
-                                <form class="simple_form edit_user" id="frmEditarAprendiz">
+                                <form class="simple_form edit_user" method="POST" id="frmEditarAprendiz">
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -193,11 +193,12 @@ $datos = $result_info;
                                     <input class="form-control" required="required" type="number" value="<?php echo $result_info['telefono'];?>" name="txtTelefono" id="txtTelefono" />
                                     </div>
                                     <div class="form-group col-md-6">
+
                                     <label for="inputMunicipio">Municipio</label>
                                     <input class="form-control" autocomplete="Municipio" required="" type="text" value="<?php echo $result_info['municipio'] ?>" name="txtMunicipio" id="txtMunicipio" />
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                     <label class="control-label" for="user_tipo_de_poblacion_id">Tipo de poblacion</label>
@@ -227,6 +228,22 @@ $datos = $result_info;
                                     </select>              
                                     </div>
                                 </div>
+
+                                    <!-- boton de rol  -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-12">
+                                    <label class="control-label" for="imputRol">Rol</label>
+                                    <select class="form-control select" name="txtRol" id="txtRol">
+                                        <option value="<?php echo $result_info['rol']; ?>" selected="true" ><?php echo $result_info['rol']; ?></option>
+                                        <option value="1">Administrador</option>
+                                        <option value="2">Aprendiz</option>
+                                        <option value="3">Orientador</option>
+                                        <option value="4">Gestor</option>
+                                        <option value="5">Certofocación</option>
+                                    </select>              
+                                  </div>
+                                </div>
+                                <!-- fin boton de rol -->
                                     <input type="hidden" value="<?php echo $result_info['id'];?>" name="txtUsuarioId" name="txtUsuarioId">
                                 </form>    
                                 <div class="form-row">
@@ -235,7 +252,7 @@ $datos = $result_info;
                                     </div>
                                 </div>        
                             </div>       
-                                   
+                            
                         <?php else:?>
                             <table class="table table-hover small" id="cargarCursosOfertados">
                                 <thead class="text-center bg-primary">
@@ -254,7 +271,7 @@ $datos = $result_info;
                                     </td>
                                 </tr>
                             </table>
-                         <?php endif; ?>
+                          <?php endif; ?>
                         
                 <?php endif; ?>
             </div>
@@ -292,16 +309,15 @@ $datos = $result_info;
             var txtTelefono = document.getElementsByName("txtTelefono")[0].value;
             var txtMunicipio = document.getElementsByName("txtMunicipio")[0].value;
             var txtTipoPoblacion = document.getElementsByName("txtTipoPoblacion")[0].value;
+            var txtRol = document.getElementsByName("txtRol")[0].value;
 
-            if ((txtNombres == "") || (txtApellidos == "")|| (txtSexo == "")|| (txtFechaNacimiento == "")|| (txtCorreo == "")|| (txtPassword == "")|| (txtTipoDocumento == "")
-            || (txtDocumento == "")|| (txtTelefono == "")|| (txtMunicipio == "")|| (txtTipoPoblacion == "")) {  //COMPRUEBA CAMPOS VACIOS
+            if ((txtNombres == "") || (txtApellidos == "")|| (txtSexo == "")|| (txtFechaNacimiento == "")|| (txtCorreo == "")|| (txtPassword == "")|| (txtTipoDocumento == "")|| (txtDocumento == "")|| (txtTelefono == "")|| (txtMunicipio == "")|| (txtTipoPoblacion == "")|| (txtRol == "")) {  //COMPRUEBA CAMPOS VACIOS
                 Swal.fire({
                 icon: 'error',
                 text: 'Por favor revisar, hay campos vacidos.',
                 showConfirmButton: false,
                 timer: 1500
-                })
-
+                });
                 
             }else{      
                   $.ajax({

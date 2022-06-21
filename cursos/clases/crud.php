@@ -118,7 +118,8 @@
 				'centro' => $ver[9],
 				'descripcion' => $ver[10],
 				'nombre_grupo' => $ver[11],
-				'estado' => $ver[12]
+				'estado' => $ver[12],
+				'rol' => $ver[13],
 			);
 			return $datos;
 		}
@@ -172,9 +173,7 @@
 			$conexion=$obj->conexion();
 			$tildes = $conexion->query("SET NAMES 'utf8'");
 			$sql="UPDATE users SET nombres='$datos[1]',apellidos='$datos[2]',sexo='$datos[3]',
-			tipodocumento='$datos[7]',documento='$datos[8]',fechaNacimiento='$datos[4]',telefono='$datos[9]',
-			tipoPoblacion='$datos[11]',municipio='$datos[10]',email='$datos[5]',password='$datos[6]'
-			WHERE id = '$datos[0]'";
+			tipodocumento='$datos[7]',documento='$datos[8]',fechaNacimiento='$datos[4]',telefono='$datos[9]',tipoPoblacion='$datos[11]',municipio='$datos[10]',email='$datos[5]',password='$datos[6]',rol='$datos[13]' WHERE id = '$datos[0]'";
 			return mysqli_query($conexion,$sql);
 		}
 
@@ -185,7 +184,7 @@
 			$tildes = $conexion->query("SET NAMES 'utf8'");
 	
 			$sql="INSERT INTO users(nombres, apellidos, sexo, tipodocumento, documento, fechaNacimiento, telefono, tipoPoblacion, municipio, email, password, rol) 
-			VALUES ('$datos[0]','$datos[1]','$datos[2]','$datos[6]','$datos[7]','$datos[3]','$datos[8]','$datos[10]','$datos[9]','$datos[4]','$datos[5]', '2')";
+			VALUES ('$datos[0]','$datos[1]','$datos[2]','$datos[6]','$datos[7]','$datos[3]','$datos[8]','$datos[10]','$datos[9]','$datos[4]','$datos[5]')";
 			return mysqli_query($conexion,$sql);
 		}
 

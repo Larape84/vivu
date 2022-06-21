@@ -15,10 +15,11 @@
 		$_POST['txtDocumento'],
 		$_POST['txtTelefono'],
 		$_POST['txtMunicipio'],
-		$_POST['txtTipoPoblacion']
+		$_POST['txtTipoPoblacion'],
+		$_POST['txtRol'],
 				);
 
 	echo $obj->actualizarAprendiz($datos);
 	
 
- ?>
+?>
