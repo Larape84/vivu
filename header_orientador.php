@@ -4,10 +4,17 @@
     <div class="row">
       <div class="col-md-12">        
         <div >
-          <?php if ($nombre_carpeta == "cursos"): ?>
-            <a href="index.php"><img width="215px" src="../assets/Logosimbolo.png" alt="Logosena" /></a>
+          <?php
+          
+          $nombre_carpeta="";
+          
+          if ($nombre_carpeta == "cursos"): 
+            
+            
+            ?>
+            <a href="../index.php"><img width="215px" src="./assets/Logosimbolo.png" alt="Logosena" /></a>
           <?php else: ?>
-            <a href="index.php"><img width="215px" src="assets/Logosimbolo.png" alt="Logosena" /></a>
+            <a href="../index.php"><img width="215px" src="./assets/Logosimbolo.png" alt="Logosena" /></a>
           <?php endif; ?>
         </div>
         <nav class=" full-width NavBar-Nav">
@@ -20,9 +27,9 @@
                  <center>
                   <div >
                   <?php if ($nombre_carpeta == "cursos"): ?>
-                    <a href="index.php"><img width="215px" src="../assets/Logosimbolo.png" alt="Logosena" /></a>
+                    <a href="index.php"><img width="215px" src="./assets/Logosimbolo.png" alt="Logosena" /></a>
                   <?php else: ?>
-                    <a href="index.php"><img width="215px" src="assets/Logosimbolo.png" alt="Logosena" /></a>
+                    <a href="index.php"><img width="215px" src="./assets/Logosimbolo.png" alt="Logosena" /></a>
                   <?php endif; ?>
                   </div>
                 </center>
@@ -41,7 +48,7 @@
             </a>
           </li> 
           <li class="menu">
-            <a href="cursos.php">
+            <a href="./vivuWeb/cursosReg.php">
               <i class="fa fa-list-ul fa-fw hidden-md hidden-lg" aria-hidden="true"></i> CURSOS
             </a>
           </li>
@@ -51,27 +58,28 @@
                 <i class="fa fa-list-ul fa-fw hidden-md hidden-lg" aria-hidden="true"></i>NOTICIAS
               </a>
             <?php else: ?>
-              <a href="noticias.php">
+              <a href="./noticias.php">
                 <i class="fa fa-list-ul fa-fw hidden-md hidden-lg" aria-hidden="true"></i>NOTICIAS
               </a>
             <?php endif; ?>
 
           </li>
           <li>
+        
           <?php if ($nombre_carpeta == "cursos"): ?>
-              <a href="../perfil.php">
-                <i class="fa fa-user fa-fw hidden-md hidden-lg" aria-hidden="true"></i><?php echo strtoupper($user[1]." ".$user[2]); ?>
+              <a href="./perfil.php">
+                <i class="fa fa-user fa-fw hidden-md hidden-lg" aria-hidden="true"></i><?php echo strtoupper($_SESSION['nombre']." ".$_SESSION['apellido']); ?>
               </a>
             <?php else: ?>
-              <a href="perfil.php">
-                <i class="fa fa-user fa-fw hidden-md hidden-lg" aria-hidden="true"></i><?php echo strtoupper($user[1]." ".$user[2]); ?>
+              <a href="./perfil.php">
+                <i class="fa fa-user fa-fw hidden-md hidden-lg" aria-hidden="true"></i><?php echo strtoupper($_SESSION['nombre']." ".$_SESSION['apellido']); ?>
               </a>
             <?php endif; ?>
             <li class="hidden-xs hidden-sm">
               <?php if ($nombre_carpeta == "cursos"): ?>
-                <img  class="NavBar-Nav-icon btn-PopUpLogin" src="../assets/<?php echo $user[15];?>" alt=""><!--</foto>-->
+                <img  class="NavBar-Nav-icon btn-PopUpLogin" src="././assets/<?php echo $user[15];?>" alt=""><!--</foto>-->
               <?php else: ?>
-                <img  class="NavBar-Nav-icon btn-PopUpLogin" src="assets/<?php echo $user[15];?>" alt=""><!--</foto>-->
+                <img  class="NavBar-Nav-icon btn-PopUpLogin" src="././assets/<?php echo $user[15];?>" alt=""><!--</foto>-->
               <?php endif; ?>
             </li>
           </ul>

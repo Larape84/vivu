@@ -105,7 +105,7 @@ if (isset($_SESSION['user_id'])) {
       <div class="container">
         <div class="row">
           <div class="card-group">
-            <div class="card">
+            <div class="card" style="display: none;">
               <img class="card-img-top img-fluid" src="assets/img/imgCuenta3.png" alt="Card image cap">
               <div class="card-body">
                 <h5 class="card-title">Cambiar información del aprendiz</h5>
@@ -114,17 +114,17 @@ if (isset($_SESSION['user_id'])) {
                 <a href="cursos/actualizar_perfil.php" class="mt-1 btn btn-primary">Ir</a>
               </div>
             </div>
-            <div class="card">              
+            <div class="card" style="display: none;">              
               <img class="card-img-top img-fluid" src="assets/img/imgCuenta2.png" alt="Card image cap">
               <div class="card-body">
                 <h5 class="card-title">Inscribir aprendiz en curso</h5>
               </div>
-              <div class="card-footer">
-                <a href="cursos/inscribir_aprendiz.php" class="mt-1 btn btn-primary">Ir</a>
+              <div class="card-footer" style="display: none;">
+                <a href="cursos/inscribir_aprendiz.php" class="mt-1 btn btn-primary" disabled="disabled" style="display: none;">Ir</a>
               </div>
             </div>
-            <div class="card">
-              <img class="card-img-top img-fluid" src="assets/img/imgCuenta1.png" alt="Card image cap">
+            <div class="card col-1">
+              <div class="card-img-top img-fluid"  alt="Card image cap">
               <div class="card-body">
                 <h5 class="card-title">Registrar aprendiz</h5>
               </div>

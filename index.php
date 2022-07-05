@@ -183,7 +183,7 @@ $nombre_carpeta = "cursos";
               <p>La formación complementaria está orientada a preparar al aprendiz para desempeñar oficios y ocupaciones requeridas por los sectores productivos y sociales, con el fin de satisfacer necesidades del nuevo talento o de cualificación de trabajadores que estén o no vinculados al mundo laboral, a través de cursos cortos de formación.</p>
             </div>
             <div class="button">
-              <a href="cursos.php" class="Link">Inscribirse</a>
+              <a href="./vivuWeb/cursosReg.php" class="Link">Inscribirse</a>
             </div>
           </div>
         </div>
@@ -318,7 +318,7 @@ $nombre_carpeta = "cursos";
               <p>La formación complementaria está orientada a preparar al aprendiz para desempeñar oficios y ocupaciones requeridas por los sectores productivos y sociales, con el fin de satisfacer necesidades del nuevo talento o de cualificación de trabajadores que estén o no vinculados al mundo laboral, a través de cursos cortos de formación.</p>
             </div>
             <div class="button">
-              <a href="cursos.php" class="Link">Inscribirse</a>
+              <a href="./vivuWeb/cursosReg.php" class="Link">Inscribirse</a>
             </div>
           </div>
         </div>
@@ -451,7 +451,7 @@ $nombre_carpeta = "cursos";
                 <p>La formación complementaria está orientada a preparar al aprendiz para desempeñar oficios y ocupaciones requeridas por los sectores productivos y sociales, con el fin de satisfacer necesidades del nuevo talento o de cualificación de trabajadores que estén o no vinculados al mundo laboral, a través de cursos cortos de formación.</p>
               </div>
               <div class="button">
-                <a href="cursos.php" class="Link">Inscribirse</a>
+                <a href="./vivuWeb/cursosReg.php" class="Link">Inscribirse</a>
               </div>
             </div>
           </div>

@@ -19,7 +19,7 @@ if (isset($_SESSION['user_id'])) {
   }
 }
 
-$No_documento = ($_POST['NoDocumento']) > 0  ? $_POST['NoDocumento'] : 0;
+$No_documento =0; // ($_POST['NoDocumento']) > 0  ? $_POST['NoDocumento'] : 0;
 
 
 $nombre_carpeta = "cursos";

@@ -16,7 +16,7 @@
   <script src="assets/general.js" data-turbolinks-track="reload"></script>
   <style type="text/css">
     .footer_new {
-      bottom: 0;xt-alig.phpn: center;
+      bottom:0; align-content: center;
       font-size: 15px;
       width: 100%;
       height: 50px; /* Set the fixed height of the footer here */

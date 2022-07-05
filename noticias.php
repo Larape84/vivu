@@ -236,7 +236,7 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 overflow-auto" style="">
+            <div class="col-md-4 overflow-auto" >
                 <iframe  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FsenaAtlantico&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="320" height="460" style="border:none;overflow:hidden; border-radius:10px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                 <a class="twitter-timeline" data-width="320" data-height="460" data-theme="dark" href="https://twitter.com/SenaAtlantico?ref_src=twsrc%5Etfw">Tweets by SenaAtlantico</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>        
             </div>
@@ -378,7 +378,7 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 overflow-auto" style="">
+            <div class="col-md-4 overflow-auto" >
                 <iframe  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FsenaAtlantico&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="320" height="460" style="border:none;overflow:hidden; border-radius:10px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                 <a class="twitter-timeline" data-width="320" data-height="460" data-theme="dark" href="https://twitter.com/SenaAtlantico?ref_src=twsrc%5Etfw">Tweets by SenaAtlantico</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>        
             </div>

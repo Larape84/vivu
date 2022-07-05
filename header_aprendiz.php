@@ -4,11 +4,10 @@
     <div class="row">
       <div class="col-md-12">        
         <div>
-          <?php if ($nombre_carpeta == "cursos"): ?>
-            <a href="../index.php"><img width="215px" src="../assets/Logosimbolo.png" alt="Logosena" /></a>
-          <?php else: ?>
-            <a href="index.php"><img width="215px" src="assets/Logosimbolo.png" alt="Logosena" /></a>
-          <?php endif; ?>
+          
+            <a href="./index.php"><img width="215px" src="../assets/Logosimbolo.png" alt="Logosena" /></a>
+          
+            
         </div>
         <nav class=" full-width NavBar-Nav">
           <div class="full-width NavBar-Nav-bg hidden-md hidden-lg show-menu-mobile"></div>
@@ -19,10 +18,10 @@
                 <div class="col-md-12">
                   <center>
                   <div>
-                    <?php if ($nombre_carpeta == "cursos"): ?>
+                    <?php $nombre_carpeta=""; if ($nombre_carpeta == "cursos"): ?>
                       <a href="../index.php"><img width="215px" src="../assets/Logosimbolo.png" alt="Logosena" /></a>
                     <?php else: ?>
-                      <a href="index.php"><img width="215px" src="assets/Logosimbolo.png" alt="Logosena" /></a>
+                      <a href="index.php"><img width="215px" src="./assets/logoSena.png" alt="Logosena" /></a>
                     <?php endif; ?>
                   </div>
                   </center>
@@ -41,15 +40,13 @@
               </a>
             </li> 
             <li class="menu">
-              <?php if ($nombre_carpeta == "cursos"): ?>
-                <a href="../cursos.php">
+            
+                <a href="./vivuWeb/cursosReg.php">
                   <i class="fa fa-list-ul fa-fw hidden-md hidden-lg" aria-hidden="true"></i> CURSOS
                 </a>
-              <?php else: ?>
-                <a href="cursos.php">
-                  <i class="fa fa-list-ul fa-fw hidden-md hidden-lg" aria-hidden="true"></i> CURSOS
-                </a>
-              <?php endif; ?>
+             
+                
+
             </li>
             <li class="menu">
               <?php if ($nombre_carpeta == "cursos"): ?>

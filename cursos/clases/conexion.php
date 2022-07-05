@@ -7,7 +7,7 @@
 			$conexion=mysqli_connect('localhost',
 										'root',
 										'',
-										'vivu');
+										'u249939424_vivuweb');
 			return $conexion;
 		}
 	}

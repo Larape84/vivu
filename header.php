@@ -4,14 +4,14 @@
     <div class="row">
       <div class="col-md-12">        
        <div class="">
-          <?php 
           
-          $nombre_carpeta="";
-          if ($nombre_carpeta == "cursos"): ?>
-            <a href="../index.php"><img width="215px" src="../assets/Logosimbolo.png" alt="Logosena" /></a>
-          <?php else: ?>
-            <a href="index.php"><img width="215px" src="assets/Logosimbolo.png" alt="Logosena" /></a>
-          <?php endif; ?>
+          
+         
+         
+            <a href="./index.php"><img width="215px" src="./assets/logoSena.png" alt="Logosena" /></a>
+        
+            
+         
       </div>
       <nav class=" full-width NavBar-Nav">
         <div class="full-width NavBar-Nav-bg hidden-md hidden-lg show-menu-mobile"></div>
@@ -22,11 +22,11 @@
               <div class="col-md-12">
                <center>
                 <div class="">
-                  <?php if ($nombre_carpeta == "cursos"): ?>
+                  
                     <a href="../index.php"><img width="215px" src="../assets/Logosimbolo.png" alt="Logosena" /></a>
-                  <?php else: ?>
-                    <a href="index.php"><img width="215px" src="assets/Logosimbolo.png" alt="Logosena" /></a>
-                  <?php endif; ?>
+                 
+                    
+                  
                 </div>
               </center>
             </div>
@@ -44,37 +44,31 @@
           </a>
         </li> 
         <li class="menu" >
-          <?php if ($nombre_carpeta == "cursos"): ?>
-              <a href="../vivu/cursos.php">
+        
+              <a href="./vivuWeb/cursosReg.php">
                 <i class="fa fa-list-ul fa-fw hidden-md hidden-lg" aria-hidden="true"></i> CURSOS
               </a>
-            <?php else: ?>
-              <a href="../vivu/cursos.php">
-                <i class="fa fa-list-ul fa-fw hidden-md hidden-lg" aria-hidden="true"></i> CURSOS
-              </a>
-            <?php endif; ?>
+            
+             
+            
         </li>
         <li class="menu" >
-          <?php if ($nombre_carpeta == "cursos"): ?>
+         
             <a href="noticias.php">
               <i class="fa fa-user fa-fw hidden-md hidden-lg" aria-hidden="true"></i>NOTICIAS
             </a>
-          <?php else: ?>
-            <a href="noticias.php">
-              <i class="fa fa-user fa-fw hidden-md hidden-lg" aria-hidden="true"></i>NOTICIAS
-            </a>
-          <?php endif; ?>       
+         
+         
+              
         </li>
         <li class="menu" >
-          <?php if ($nombre_carpeta == "cursos"): ?>
-            <a href="sign_in.php">
-              <i class="fa fa-user fa-fw hidden-md hidden-lg" aria-hidden="true"></i>INICIAR SESIÓN
-            </a>
-          <?php else: ?>
+         
+          
+         
             <a href="../vivu/sign_in.php">
               <i class="fa fa-user fa-fw hidden-md hidden-lg" aria-hidden="true"></i>INICIAR SESIÓN
             </a>
-          <?php endif; ?>
+         
           
         </li>
       </ul>

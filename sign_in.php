@@ -37,7 +37,9 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
   if (count($result_login) > 0 && ($_POST['password']==$user[7])) {
     $_SESSION['user_id'] = $user[0];
-
+    $_SESSION['rol']= $user[9];
+    $_SESSION['nombre']= $user[1];
+    $_SESSION['apellido']= $user[2];
     $fecha=date('y-m-d');
     include 'save-fecha-sesion.php';
 

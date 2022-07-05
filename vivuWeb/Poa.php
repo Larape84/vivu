@@ -1,0 +1,334 @@
+<?php  include "conexion1.php";?>
+
+<?php include "header.php" ?>
+
+<?php
+
+if (isset($_SESSION['user_id'])) {
+    $id = $_SESSION['user_id'];
+    $consulta='SELECT id, municipio, periodo, estado FROM asignar_municipios WHERE asignar_municipios.id_responsable='.$id.' AND asignar_municipios.estado="activo" ';
+    $resultado = $mysqli->query($consulta);
+
+    //var_dump($resultado);
+}
+?>
+
+<script src="https://unpkg.com/qrious@4.0.2/dist/qrious.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+
+<div class="container contenedor">
+    <?php
+    
+
+    if (!isset($_SESSION['estado'])){
+      $_SESSION['estado']='';
+      $_SESSION['valor']='';
+    }
+
+        if($_SESSION['valor']==1){
+            ?>
+            <div class="alert alert-dismissible alert-success" style="margin-top:20px;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <span class="icon-checkmark"></span> <?php echo $_SESSION['estado'] ; ?>
+            </div>
+            <?php
+
+            unset($_SESSION['estado']);
+
+        }elseif($_SESSION['estado']==!null){
+          ?>
+            <div class="alert alert-dismissible alert-danger" style="margin-top:20px;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <span class="icon-checkmark"></span> <?php echo "Operacion NO Realizada :".$_SESSION['estado'] ; ?>
+            </div>
+            <?php
+
+           unset($_SESSION['estado']);
+
+        }
+    ?>
+
+
+
+
+<br>
+
+
+<div class="ocular" id="ocultar" name="ocultar" >
+<div class="container center-fluid">
+    
+<form action="operaciones.php" method="POST">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Municipio</label>
+    <select name="municipio" id="municipio" class="form-select" required>
+    <option selected value=""></option>
+  <?php
+  while ($obj = $resultado->fetch_object()) {echo '<option value="'.$obj->id.'">'.$obj->municipio.' - '.$obj->periodo.'</option>';}
+  ?>
+  </select>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Nombre del Poa</label>
+    <input type="text" class="form-control" id="Nombre_Poa" name='Nombre_Poa' placeholder="Nombre_Poa" required>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Persona o Enlace</label>
+    <input type="text" class="form-control" id="Persona_Enlace" name='Persona_Enlace' placeholder="Persona_Enlace" required>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Telefono del Enlace</label>
+    <input type="number" class="form-control" id="Telefono_Enlace" name='Telefono_Enlace' placeholder="Telefono_Enlace" required>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Correo del Enlace</label>
+    <input type="email" class="form-control" id="Correo_Enlace" name='Correo_Enlace' placeholder="Correo_Enlace" required>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Poblacion del Poa</label>
+    <input type="text" class="form-control" id="Poblacion" name='Poblacion' placeholder="Poblacion" required>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Ocupacion_Productiva</label>
+    <input type="text" class="form-control" id="Ocupacion_Productiva" name='Ocupacion_Productiva' placeholder="Ocupacion_Productiva" required>
+  </div>
+
+  <input type="text" value=3 style="display: none;" id="operacion" name='operacion'>
+
+<button type="submit" class="btn btn-primary">Registrar</button>
+</div>
+</form>
+
+</div>
+
+<br>
+</div>
+
+<table id="tabla" class="table table-striped">
+      <thead>
+        <tr>
+          <th style="width:80px">Nombre Poa</th>
+          <th style="width:80px">Municipio</th>
+          <th style="width:50px">Vigencia</th>
+          <th style="width:100px">Enlace</th>
+          <th style="width:50px">Telefono</th>
+          <th style="width:80px">Tipo Poblacion</th>
+          <th style="width:80px">Ocupacion Productiva</th>
+          <th style="width:50px">Cursos</th>
+          <th style="width:250px">Gestion del Poa</th>
+
+        </tr>
+        <tr>
+          <td colspan="8">
+            <input id="buscar" type="text" class="form-control" placeholder="filtrar" />
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+
+      <?php
+
+      if ($_SESSION['rol']==1){
+
+        $consulta="SELECT * FROM asignar_municipios, poa WHERE poa.id_asignar_municipios=asignar_municipios.id ORDER BY poa.id_poa DESC";
+      
+      }else{
+
+        $consulta='SELECT * FROM asignar_municipios, poa WHERE poa.id_asignar_municipios=asignar_municipios.id AND asignar_municipios.id_responsable='.$id.' AND asignar_municipios.estado="activo" ORDER BY poa.id_poa DESC';
+        
+        
+        
+      }
+
+      
+      
+      
+      
+
+      
+      //var_dump($query);
+      $query = $mysqli->query($consulta);
+
+      while ($row = $query->fetch_object()) {
+
+        $consulta2="SELECT COUNT(*) AS CURSOS FROM gestion_cursos WHERE gestion_cursos.id_nombre_poa=".$row->id_poa;
+        $query2 = $mysqli->query($consulta2);
+
+        echo '<tr> 
+
+                    <td class="gfgnombres">'.$row->Nombre_Poa.'</td> 
+                    <td class="gfgmunicipio">'.$row->municipio.'</td>
+                    <td class="gfgperiodo">'.$row->periodo.'</td>
+                    <td class="gfgPersona_Enlace">'.$row->Persona_Enlace.'</td> 
+                    <td class="gfgTelefono_Enlace">'.$row->Telefono_Enlace.'</td> 
+                    <td class="gfgPoblacion">'.$row->Poblacion.'</td> 
+                    <td class="gfgOcupacion_Productiva">'.$row->Ocupacion_Productiva.'</td>';
+
+                    while ($row2 = $query2->fetch_object()) {
+                      echo '<td class="gfgcursos">'.$row2->CURSOS.'</td>';  
+                    }
+
+                     echo '
+                    <td class="gfgid" style="display:none" >'.$row->id_poa.'</td> 
+                    <td> 
+                    <button class="gfgselect btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span ></span>Editar</button>
+                    <button class="gfgdelete btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete"><span ></span>Borrar</button>
+
+                    <a href=Gestion_cursos.php?id='.$row->id_poa.' <button class="gfgdelete btn btn-warning btn-xs" ><span ></span>Ver Cursos</button></a> 
+
+                    <button class="gfgenlace btn btn-success btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropenlace"><span ></span>Enlace</button>
+                    
+                    </td>
+                    
+              </tr>';
+    }
+
+
+   
+    
+       ?> 
+
+
+
+
+
+
+
+      </tbody>
+    </table>
+
+<br>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Actualizar Registro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <div class="GFGclass" 
+        id="divGFG"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="staticBackdropDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Desea Eliminar el Registro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <div class="delete" id="delete"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="staticBackdropenlace" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Link para compartir con enlace Municipio</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <div class="enlace" id="enlace"></div>
+       <div class="codigo" id="codigo"></div>
+       <div class="pie" id="pie"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<?php include "footer.php" ?>
+
+<script type="text/javascript">
+
+
+var busqueda = document.getElementById('buscar');
+    var table = document.getElementById("tabla").tBodies[0];
+
+    buscaTabla = function(){
+      texto = busqueda.value.toLowerCase();
+      var r=0;
+      while(row = table.rows[r++])
+      {
+        if ( row.innerText.toLowerCase().indexOf(texto) !== -1 )
+          row.style.display = null;
+        else
+          row.style.display = 'none';
+      }
+    }
+
+    busqueda.addEventListener('keyup', buscaTabla);
+
+    var a="";
+    $(function () {
+                // ON SELECTING ROW
+                $(".gfgenlace").click(function () {
+   //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                    a="";
+                    a = $(this).parents("tr").find(".gfgid").text();
+                    //alert ("el link que se debe compartir es :\n\n https://www.vivu.com.co/vivuWev/cursosReg.php?poa="+a);
+                    var p="";
+                    var z="";
+                    var qr="";
+                    p+='<div class="form-group">'+
+    '<label for="exampleInputPassword1">Compartir Enlace</label>'+
+    '<input type="text" class="form-control" id="periodo" name="periodo" placeholder="Periodo" value="https://www.vivu.com.co/vivuWeB/cursosReg.php?poa='+a+'" readyonly >'+
+  '</div>';
+  z+='<div class="modal-footer">'+
+       '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+       '<button type="button" onclick="download()" class="btn btn-primary">Descargar Codigo QR</button>'+
+      '</div>'
+
+      qr+='<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;"'+
+      'src="https://chart.googleapis.com/chart?chs=300x300&amp;cht=qr&amp;choe=UTF-8&amp;chl=https://www.vivu.com.co/vivuWeB/cursosReg.php?poa='+a+'">'
+
+                    $("#enlace").empty();
+                    $("#codigo").empty();
+                    $("#pie").empty();
+                    //WRITING THE DATA ON MODEL
+                    $("#enlace").append(p);
+                    $("#pie").append(z);
+                    $("#codigo").append(qr);
+                    
+                    
+                
+                  });
+            });
+
+
+            function download() {
+              
+                  axios({
+                        url: 'https://chart.googleapis.com/chart?chs=300x300&cht=qr&choe=UTF-8&chl=https://www.vivu.com.co/vivuWeB/cursosReg.php?poa='+a+'',
+                        method: 'GET',
+                        responseType: 'blob'
+                  })
+                        .then((response) => {
+                              const url = window.URL
+                                    .createObjectURL(new Blob([response.data]));
+                              const link = document.createElement('a');
+                              link.href = url;
+                              link.setAttribute('download', 'imageQR.jpg');
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                        })
+            }
+
+
+</script>
+
+
+
+

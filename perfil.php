@@ -120,17 +120,11 @@ if (isset($_SESSION['user_id'])) {
               <a href="perfil.php" class="list-group-item active">
                 <i class="fa fa-user fa-fw" aria-hidden="true"></i> Tú perfil
               </a>
-            <?php if (in_array($user['rol'], [1,3])): ?>
+            
 
-              <a href="cursos/cursos_ofertados.php" class="list-group-item">
-                <i class="fa fa-object-group fa-fw" aria-hidden="true"></i> Cursos Ofertados
-              </a>
+              
 
-            <?php elseif ($user['rol']=='2'): ?>
-                <a href="cursos/mis_cursos.php" class="list-group-item">
-                <i class="fa fa-object-group fa-fw" aria-hidden="true"></i> Mis cursos
-              </a>
-            <?php endif; ?>
+           
               
             </div><br>
           </div>
