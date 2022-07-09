@@ -41,7 +41,27 @@ include "header.php"
 </div>
 
 </div>
-</div></div>
+</div>
+
+<div class="row">
+<div class="col-sm-4">
+
+<div class="card border-dark mb-3" style="width: 24rem; height: 12rem">
+  <div class="card-body">
+    <h5 class="card-title">Actas de Concertacion</h5>
+    <p class="card-text">Validar Actas de concertacion para activar cursos</p>
+    <a href="actas_concertacion.php" class="btn btn-primary">Seleccionar</a>
+  </div>
+</div>
+</div>
+
+
+
+
+
+</div>
+
+</div>
 
 
 

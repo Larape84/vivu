@@ -2,7 +2,7 @@
 <?php
 
     $id_cedula=$_POST["cedula"];
-
+    $anio=$_POST["anio"];
 
     
 
@@ -15,13 +15,24 @@ $consulta='SELECT * FROM users WHERE users.documento='.$id_cedula;
 
 $query = $mysqli->query($consulta);
 
+
+
  if ($query->num_rows==1){
 
-
+ 
 while ($row = $query->fetch_object()) {
-  
+     
+    $fecha=$row->fechaNacimiento;
+
+    $fecha1=explode("-",$fecha);
+
+    if($fecha1[0]==$anio){
+
     echo '
           <form enctype="multipart/form-data" action="realizar_inscripcion.php" method="POST">
+
+          <div class="form1" id="form1" name="form1" style="display:block"> 
+
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label class="control-label" for="user_nombre">Nombres</label>
@@ -58,7 +69,7 @@ while ($row = $query->fetch_object()) {
                 <div class="form-group col-md-12">
                     <label class="control-label" for="user_tipo_de_poblacion_id">Tipo de poblacion</label>
                     <select class="form-control select" name="poblacion" id="poblacion" required>
-                        <option value="'.$row->tipoPoblacion.'">'.$row->tipoPoblacion.'</option>
+                        <option selected value="'.$row->tipoPoblacion.'">'.$row->tipoPoblacion.'</option>
                         <option value="Desplazados por la violencia">Desplazados por la violencia</option>
                         <option value="Víctimas del conflicto armado">Víctimas del conflicto armado</option>
                         <option value="Discapacitados">Discapacitados</option>
@@ -108,7 +119,7 @@ while ($row = $query->fetch_object()) {
                 <div class="mb-3">
                 <label for="formFile" class="form-label">Seleccione PDF</label>
                 <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
-                <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
                 <input class="form-control" type="file" id="filePDF" name="filePDF" required accept="application/pdf">
                 </div>
 
@@ -119,26 +130,146 @@ while ($row = $query->fetch_object()) {
                 <div class="mb-3">
                 <label for="formFile" class="form-label">Capturar 1ra cara del documento</label>
                 <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
-                <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
-                <input class="form-control" type="file" id="filePDF1" name="filePDF1" required accept="image/jpg, image/jpeg">
+                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
+                <input class="form-control" type="file" id="filePDF1" name="filePDF1" required>
                 </div>
                 <div class="mb-3">
                 <label for="formFile" class="form-label">Capturar 2da cara del documento</label>
                 <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
-                <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
-                <input class="form-control" type="file" id="filePDF2" name="filePDF2" required accept="image/jpg, image/jpeg">
+                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
+                <input class="form-control" type="file" id="filePDF2" name="filePDF2" required>
                 </div>
 
             </div>
 
+            </div>
             
+            <div class="form2" id="form2" name="form2" style="display:none"> 
+
+            <div class="form-row">
+            <div class="form-group col-md-12">
+                <label class="control-label" for="inscritoSofia">Se encuentra inscrito en Sofia Plus</label>
+                <select class="form-control select" onchange="sofiaPlus()" name="inscritoSofia" id="inscritoSofia" required>
+                    <option value="">Seleccione</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                </select>              
+                    </div>
+                    </div>       
+            </div>
+
+           
+
+
+            <div class="form4 form-container-fluid" id="form4" name="form4" style="display:none"> 
+
+            <div class="form-row">
+
+            <div class="form-group col-md-6">
+
+                <label class="control-label" for="Pais"> Indique Pais de Nacimiento</label>
+                <select class="form-control select" name="Pais" id="Pais" required>
+                    <option value="">Seleccione</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Venezuela">Venezuela</option>
+                </select>  
+                
+                
+                
+            </div>
+
+            <div class="form-group col-md-6">
+                    <label class="control-label" for="Departamento">Departamento de Nacimiento</label>
+                    <select class="form-control select" name="Departamento" id="Departamento" required>
+                        <option value="">Seleccione</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Venezuela">Venezuela</option>
+                    </select>              
+            </div>
             
+            </div> 
+
+
+                    
+           
+            
+                <div class="form-row">
+
+            <div class="form-group col-md-6">
+
+                <label class="control-label" for="Municipio"> Municipio de nacimiento</label>
+                <select class="form-control select" name="Municipio" id="Municipio" required>
+                    <option value="">Seleccione</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Venezuela">Venezuela</option>
+                </select>              
+             </div>
+
+                    
+            
+            <div class="form-group col-md-6">
+                <label class="control-label" for="expedicion">Expedicion de su documento</label>
+                <input class="form-control" required="required" type="date" name="expedicion" id="expedicion" value=""/>  
+
+            </div>
+            </div> 
+
+                    
+
+
+            <div class="form-row">
+
+            <div class="form-group col-md-6">
+
+                <label class="control-label" for="Pais2">Pais Expedicion del documento</label>
+                <select class="form-control select" name="Pais2" id="Pais2" required>
+                    <option value="">Seleccione</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Venezuela">Venezuela</option>
+                </select> 
+
+            </div>
+
+
+                    
+            
+            <div class="form-group col-md-6">
+
+                <label class="control-label" for="Departamento2">Departamento expedicion del documento</label>
+                <select class="form-control select" name="Departamento2" id="Departamento2" required>
+                    <option value="">Seleccione</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Venezuela">Venezuela</option>
+                </select> 
+
+            </div>
+
+            </div> 
+
+                <div class="form-row">
+            <div class="form-group col-md-12">
+                <label class="control-label" for="Municipio2">Municipio expedicion del documento</label>
+                <select class="form-control select" name="Municipio2" id="Municipio2" required>
+                    <option value="">Seleccione</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Venezuela">Venezuela</option>
+                </select>              
+                    </div>
+                    </div> 
+                    
+                    
+            </div>
+
+
             </div>
 
             <div class="modal-footer">
 
-       <button type="button" onclick="cerrar()" class="gfgcerrar btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-       <button type="submit" class="btn btn-primary">Inscribir</button>
+       <button type="button" onclick="cerrar()" style="display:block;" id="gfgcerrar" name="gfgcerrar" class="gfgcerrar btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+       <button type="button" style="display:none;" onclick="regresar()" id="atras" name="atras" class="atras btn btn-secondary">Regresar</button>
+       <button type="button" onclick="validar()" id="continuar" class="continuar btn btn-success">Continuar</button>
+       <button type="submit" style="display:none;" id="inscribir" class="inscribir btn btn-primary">Inscribir</button>
+       
        
       </div>
 
@@ -152,14 +283,21 @@ while ($row = $query->fetch_object()) {
     
 
 
+}else {
+
+    echo "Por favor verifique la informacion ingresada";
+}
+
 }
 
 }
 
 if ($query->num_rows==0){
-    echo '<div class="container">
+    echo '
     
     <form enctype="multipart/form-data" action="realizar_inscripcion.php" method="POST">
+
+    <div class="form1" id="form1" name="form1" style="display:block"> 
 
     <div class="form-row">
                 <div class="form-group col-md-6">
@@ -207,6 +345,8 @@ if ($query->num_rows==0){
                         <option value="Cedula de Ciudadanía">Cedula de Ciudadanía</option>
                         <option value="Cedula de Extranjeria">Cedula de Extranjeria</option>
                         <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                        <option value="Pep">Pep</option>
+                        <option value="Ppt">Ppt</option>
                     </select>              
                 </div>
                 <div class="form-group col-md-6">
@@ -220,6 +360,7 @@ if ($query->num_rows==0){
                     <label for="inputTelefono">Telefono</label>
                     <input class="form-control" required="required" type="number" name="txtTelefono" id="txtTelefono" />
                 </div>
+                    <input class="form-control" required="required" type="number" name="tipoform" id="tipoform" value="1" style="display:none;" />
                 <div class="form-group col-md-6">
                     <label for="inputMunicipio">Municipio</label>
                     <input class="form-control" required="" type="text" name="txtMunicipio" id="txtMunicipio" />
@@ -252,6 +393,7 @@ if ($query->num_rows==0){
                         <option value="Soldados campesinos">Soldados campesinos</option>
                         <option value="Sobrevivientes minas antipersonas">Sobrevivientes minas antipersonas</option>
                         <option value="Comunidad LGBTI">Comunidad LGBTI</option>
+                        <option value="Migrantes">Migrantes</option>
                     </select>              
                 </div>
             </div>
@@ -276,7 +418,7 @@ if ($query->num_rows==0){
                 <div class="mb-3">
                 <label for="formFile" class="form-label">Seleccione PDF</label>
                 <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
-                <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
                 <input class="form-control" type="file" id="filePDF" name="filePDF" required accept="application/pdf">
                 </div>
 
@@ -287,32 +429,157 @@ if ($query->num_rows==0){
                 <div class="mb-3">
                 <label for="formFile" class="form-label">Capturar 1ra cara del documento</label>
                 <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
-                <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
-                <input class="form-control" type="file" id="filePDF1" name="filePDF1" required accept="image/jpg, image/jpeg">
+                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
+                <input class="form-control" type="file" id="filePDF1" name="filePDF1" required>
                 </div>
                 <div class="mb-3">
                 <label for="formFile" class="form-label">Capturar 2da cara del documento</label>
                 <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
-                <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
-                <input class="form-control" type="file" id="filePDF2" name="filePDF2" required accept="image/jpg, image/jpeg">
+                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
+                <input class="form-control" type="file" id="filePDF2" name="filePDF2" required>
                 </div>
 
             </div>
 
             
             
-            
 
-            <div class="modal-footer">
+        </div> 
 
-       <button type="button" onclick="cerrar()" class="gfgcerrar btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-       <button type="submit" class="btn btn-primary">Inscribir</button>
+    
+        
+        <div class="form2" id="form2" name="form2" style="display:none"> 
+
+        <div class="form-row">
+        <div class="form-group col-md-12">
+            <label class="control-label" for="inscritoSofia">Se encuentra inscrito en Sofia Plus</label>
+            <select class="form-control select" onchange="sofiaPlus()" name="inscritoSofia" id="inscritoSofia" required>
+                <option value="">Seleccione</option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+            </select>              
+                </div>
+                </div>       
+        </div>
+
        
-      </div>
+
+
+        <div class="form4 form-container-fluid" id="form4" name="form4" style="display:none"> 
+
+        <div class="form-row">
+
+        <div class="form-group col-md-6">
+
+            <label class="control-label" for="Pais"> Indique su Pais de Nacimiento </label>
+            <select class="form-control select" name="Pais" id="Pais" required>
+                <option value="">Seleccione</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Venezuela">Venezuela</option>
+            </select>  
+            
+            
+            
+        </div>
+
+        <div class="form-group col-md-6">
+                <label class="control-label" for="Departamento">Departamento de Nacimiento</label>
+                <select class="form-control select" name="Departamento" id="Departamento" required>
+                    <option value="">Seleccione</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Venezuela">Venezuela</option>
+                </select>              
+        </div>
+        
+        </div> 
+
+
+                
+       
+        
+            <div class="form-row">
+
+        <div class="form-group col-md-6">
+
+            <label class="control-label" for="Municipio">Indique su Municipio de nacimiento</label>
+            <select class="form-control select" name="Municipio" id="Municipio" required>
+                <option value="">Seleccione</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Venezuela">Venezuela</option>
+            </select>              
+         </div>
+
+                
+        
+        <div class="form-group col-md-6">
+            <label class="control-label" for="expedicion">Indique fecha expedicion de su documento</label>
+            <input class="form-control" required="required" type="date" name="expedicion" id="expedicion" value=""/>  
+
+        </div>
+        </div> 
+
+                
+
+
+        <div class="form-row">
+
+        <div class="form-group col-md-6">
+
+            <label class="control-label" for="Pais2">Pais Expedicion del documento</label>
+            <select class="form-control select" name="Pais2" id="Pais2" required>
+                <option value="">Seleccione</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Venezuela">Venezuela</option>
+            </select> 
+
+        </div>
+
+
+                
+        
+        <div class="form-group col-md-6">
+
+            <label class="control-label" for="Departamento2">Departamento expedicion del documento</label>
+            <select class="form-control select" name="Departamento2" id="Departamento2" required>
+                <option value="">Seleccione</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Venezuela">Venezuela</option>
+            </select> 
+
+        </div>
+
+        </div> 
+
+            <div class="form-row">
+        <div class="form-group col-md-12">
+            <label class="control-label" for="Municipio2">Municipio expedicion del documento</label>
+            <select class="form-control select" name="Municipio2" id="Municipio2" required>
+                <option value="">Seleccione</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Venezuela">Venezuela</option>
+            </select>              
+                </div>
+                </div> 
+                
+                
+        </div>
+
+
+    
+
+        <div class="modal-footer">
+
+   <button type="button" onclick="cerrar()" style="display:block;" id="gfgcerrar" name="gfgcerrar" class="gfgcerrar btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+   <button type="button" style="display:none;" onclick="regresar()" id="atras" name="atras" class="atras btn btn-secondary">Regresar</button>
+   <button type="button" onclick="validar()" id="continuar" class="continuar btn btn-success">Continuar</button>
+   <button type="submit" style="display:none;" id="inscribir" class="inscribir btn btn-primary">Inscribir</button>
+   
+   
+  </div>
 
 
 
-          </form>';
+      </form>';
 
 
 

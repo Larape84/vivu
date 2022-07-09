@@ -12,6 +12,11 @@ operacion 4 = registrar curso
 operacion 5 = registrar enlace
 operacion 6 = actualizar alianza municipio
 operacion 7 = registro eliminado alianza
+operacion 8 = actualizar poa
+operacion 9 = eliminar poa
+operacion 10 = actualizar curso que no este concertado
+operacion 11 = eliminar curso que no este concertado
+operacion 12 = subir actas de concertacion
 
 
  */
@@ -237,6 +242,7 @@ switch ($o) {
         break;
 
     case 7:  
+
         
         try {
             include 'conexion1.php';
@@ -266,22 +272,233 @@ switch ($o) {
         break; 
     case 8: 
         
+        try {
+            include 'conexion1.php';
+
+            $Nombre_Poa=$_POST['gfgnombres'];
+            $Persona_Enlace=$_POST['gfgPersona_Enlace'];
+            $Telefono_Enlace=$_POST['gfgTelefono_Enlace'];
+            $Ocupacion_Productiva=$_POST['gfgOcupacion_Productiva'];
+            $id_poa=$_POST['poa_id'];
+            
+            
+            //var_dump($id_User,$municipio,$periodo,$enlace_poblacion,$cargo,$poa_id);
+
+        $sql = "UPDATE poa SET Nombre_Poa='$Nombre_Poa', Persona_Enlace='$Persona_Enlace', Telefono_Enlace='$Telefono_Enlace', Ocupacion_Productiva='$Ocupacion_Productiva' WHERE id_poa='$id_poa'";
+
+        $resultado1 = $mysqli->query($sql);
+        $_SESSION['estado'] = "Operacion Registrada Correctamente";
+        $_SESSION['valor'] = 1;
+        $mysqli->close();
+        //echo '<br>';
+       //var_dump($Nombre_Poa,$Persona_Enlace,$Telefono_Enlace,$Ocupacion_Productiva,$id_poa);
+        
+        header("Location: Poa.php");
+
+        } catch (Exception $e) {
+            $_SESSION['estado'] =$e->getMessage();
+            header("Location: Poa.php");
+            $mysqli->close();
+        }
+    
+        //var_dump($_SESSION['estado']);
+        break;
         
 
 
 
         
        break; 
- case 9:   
+    case 9:   
+     try {
+        include 'conexion1.php';
+
+       
+        $poa_id=(int)$_POST['poa_id'];
+
+      $sql = "DELETE from poa  WHERE id_poa=$poa_id";
+
+
+       $resultado1 = $mysqli->query($sql);
+
+         $_SESSION['estado'] = "Registro Eliminado correctamente";
+          $_SESSION['valor'] = "1";
+         $mysqli->close();
+    
+            header("Location: Poa.php");
+            } catch (Exception $e) {
+                $_SESSION['estado'] =$e->getMessage();
+                header("Location: Poa.php");
+                $mysqli->close();
+            }
+            //var_dump($_SESSION);
+
+
+
        break;
 
-       case 10:   
+case 10: 
+    try {
+        include 'conexion1.php';
+
+       
+        $curso_id=$_POST['poa_id'];
+
+        
+        $Centro_Formacion=$_POST['Centro_Formacion'];
+        $Nivel_Formacion=$_POST['Nivel_Formacion'];
+        $Nombre_Curso=$_POST['Nombre_Curso'];
+        $categoria=$_POST['categoria'];
+        $Mes_Poa=$_POST['Mes_Poa'];
+        $Estado_Curso=$_POST['Estado'];
+        $Direccion=$_POST['Direccion'];
+
+
+      $sql = "UPDATE gestion_cursos SET Centro_Formacion='$Centro_Formacion', Nivel_Formacion='$Nivel_Formacion', Nombre_Curso='$Nombre_Curso', categoria='$categoria', Mes_Poa='$Mes_Poa', Estado_Curso='$Estado_Curso', Direccion='$Direccion' WHERE id_Gestion_Cursos=$curso_id";
+
+
+       $resultado1 = $mysqli->query($sql);
+
+         $_SESSION['estado'] = "Registro actualizado correctamente";
+          $_SESSION['valor'] = "1";
+         $mysqli->close();
+    
+            header("Location: Gestion_cursos.php");
+            } catch (Exception $e) {
+                $_SESSION['estado'] =$e->getMessage();
+                header("Location: Gestion_cursos.php");
+                $mysqli->close();
+            }
+            //var_dump($_SESSION);
+    
+
+
+
+
         break;
 
-        case 11:   
+case 11:  
+    try {
+        include 'conexion1.php';
+
+       
+        $id=$_POST['poa_id'];
+
+    $sql = "DELETE from gestion_cursos WHERE id_Gestion_Cursos=$id";
+
+
+    $resultado1 = $mysqli->query($sql);
+
+    $_SESSION['estado'] = "Registro Eliminado correctamente";
+    $_SESSION['valor'] = "1";
+    $mysqli->close();
+    
+    header("Location: Gestion_cursos.php");
+    } catch (Exception $e) {
+        $_SESSION['estado'] =$e->getMessage();
+        header("Location: Gestion_cursos.php");
+        $mysqli->close();
+    }
+    //var_dump($_SESSION); 
             break;
 
-}
+
+
+case 12:   
+    include 'conexion1.php';
+
+       
+    $valores=$_POST['valores'];
+    $usuario=$_SESSION["user_id"];
+    $Mes_Poa=$_POST["Mes_Poa"];
+    $Vigencia=$_POST["Vigencia"];
+
+    $fichero = $_FILES["fileconcertacion"];
+
+    $InformacionArchivo = pathinfo($_FILES['fileconcertacion']['name']);
+    $NombreArchivo = $_FILES['fileconcertacion']['name'];
+    $NombreArchivo = $InformacionArchivo['filename'];
+    $Extension = $InformacionArchivo['extension'];
+    $ArchivoPDF = time().".".$Extension;
+
+    $Ubicacion = 'concertaciones/'.$ArchivoPDF;
+    copy( $_FILES['fileconcertacion']['tmp_name'], $Ubicacion);
+
+
+
+    $sql = "INSERT INTO files_concertaciones (mes_concertacion, ruta, users_id, estado, vigencia) VALUES ('$Mes_Poa','$Ubicacion', '$usuario','por validar','$Vigencia')";
+
+    $resultado1 = $mysqli->query($sql);
+
+
+    $sql = "SELECT * FROM files_concertaciones WHERE ruta='$Ubicacion'";
+
+    $query = $mysqli->query($sql);
+
+    while ($row = $query->fetch_object()) {
+        $id_archivo=$row->id_file_concertaciones;
+         }
+
+        // echo  $id_archivo;
+    
+    
+         for ($i=0; $i<=$valores; $i++){
+        
+            $cursos_id=$_POST["check$i"];
+
+            $sql = "INSERT INTO concertaciones (id_concertacion, id_usuario, id_gestion_cursos) VALUES ('$id_archivo','$usuario','$cursos_id')";
+
+            $resultado1 = $mysqli->query($sql);
+
+            $sql = "UPDATE gestion_cursos SET Estado_Curso='Concertado acta' WHERE id_Gestion_Cursos=$cursos_id";
+
+            $resultado1 = $mysqli->query($sql);
+
+
+         }
+
+    
+
+    $_SESSION['estado'] = "Se ha registrado correctamente acta de concertacion";
+    $_SESSION['valor'] = 1;
+    
+    //var_dump($resultado1);
+    $mysqli->close();
+    header("Location: Gestion_cursos.php"); 
+
+
+
+
+
+
+
+
+
+
+    break;
+
+
+
+
+
+
+case 13:   
+    break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
 
 
 

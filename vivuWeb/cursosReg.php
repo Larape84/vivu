@@ -4,6 +4,7 @@
 
 <div class="container content-center">
 
+
 <?php 
 
 
@@ -105,7 +106,7 @@ if(isset($_GET['poa'])){
 ?>
 
 <br>
-  <button id="ocultar" class="ocultar btn btn-primary btn-xs" name="ocultar" >Ocultar / Mostar Detalle</button>
+  <button id="ocultar" onclick="ocultar()" class="ocultar btn btn-primary btn-xs" name="ocultar" >Ocultar / Mostar Detalle</button>
 
 <br><br>
 <table id="tabla" class="table table-striped">
@@ -181,12 +182,15 @@ while ($row = $query->fetch_object()) {
         
         <form class="row g-3">
   
-          <div class="col-auto">
+          <div class="col-auto input-group">
             <label for="InputDocumento" class="visually-hidden">Ingrese su nro de documento</label>
             <input type="number" class="form-control" id="cedula"  name="cedula" placeholder="nro documento" required>
+            <div class="col-auto col-4">
+            <input type="number" class="form-control" id="anio"  name="anio" placeholder="año" required>
+            </div>
+            <button type="button" class="btn btn-primary mb-3" onclick="buscar($('#cedula','#anio').val());" >Verificar</button>
           </div>
           <div class="col-auto">
-            <button type="button" class="btn btn-primary mb-3" onclick="buscar($('#cedula').val());" >Verificar</button>
           </div>
         </form>
 
@@ -212,22 +216,31 @@ var c="";
 
 function cerrar() {
     document.querySelector("#cedula").value=""
+    document.querySelector("#anio").value=""
     $("#resultado").empty();
+    
 
   };
 
   
 
 
-function buscar(cedula) {
+function buscar(cedula,anio) {
   $("#resultado").empty();
   if (document.getElementById("cedula").value==""){
   alert("Por favor ingrese su nro de documento");
   return;
 }
+if (document.getElementById("anio").value==""){
+  alert("Por favor ingrese su año de nacimiento");
+  return;
+}
 
+        var cedula = document.getElementById("cedula").value;
+        var anio = document.getElementById("anio").value;
 
-     var parametros = {"cedula":cedula};
+     var parametros = {"cedula": cedula,"anio": anio};
+     
 $.ajax({
     data:parametros,
     url:'buscar_inscritos.php',
@@ -293,9 +306,11 @@ var busqueda = document.getElementById('buscar');
 
     busqueda.addEventListener('keyup', buscaTabla);
 
-    
+    var opcionDocumento="";
+     opcionDocumento = document.getElementById("documento").value;
+
     function seleccionDocumento() { 
-    var opcionDocumento = document.getElementById("documento").value;
+     opcionDocumento = document.getElementById("documento").value;
     //alert (opcionDocumento);
     var subir_Documento="";
 
@@ -339,7 +354,8 @@ if (opcionDocumento==3){
   };
 
 
-$("#ocultar").on("click", function(){
+
+  function ocultar(){
 
 $(".columna1").toggle();
 $('td:nth-child(2)').toggle();
@@ -347,8 +363,7 @@ $('td:nth-child(5)').toggle();
 $('td:nth-child(6)').toggle();
 $('td:nth-child(7)').toggle();
 
-
-});
+};
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -361,6 +376,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function validar(){ 
+
+      txtPassword="";
+      txtTelefono="";
+      txtCorreo="";
+      Poblacion="";
+      modo=0;
+
+      if (document.getElementById("txtNombres") ){txtNombres=document.getElementById("txtNombres").value;};
+      if (document.getElementById("txtApellidos") ){txtApellidos=document.getElementById("txtApellidos").value;};
+      if (document.getElementById("txtSexo")){txtSexo=document.getElementById("txtSexo").value;};
+      if (document.getElementById("txtFechaNacimiento") ){txtFechaNacimiento=document.getElementById("txtFechaNacimiento").value;};
+      if (document.getElementById("txtCorreo") ){txtCorreo=document.getElementById("txtCorreo").value;};
+      if (document.getElementById("txtPassword") ){txtPassword=document.getElementById("txtPassword").value;};
+      if (document.getElementById("txtTipoDocumento")){txtTipoDocumento=document.getElementById("txtTipoDocumento").value;};
+      if (document.getElementById("txtTelefono")){txtTelefono=document.getElementById("txtTelefono").value;};
+      if (document.getElementById("txtMunicipio") ){txtMunicipio=document.getElementById("txtMunicipio").value;};
+      if (document.getElementById("txtTipoPoblacion")){txtTipoPoblacion=document.getElementById("txtTipoPoblacion").value;};
+      if (document.getElementById("poblacion")){txtTipoPoblacion=document.getElementById("poblacion").value;};
+      if (document.getElementById("tipoform")){modo=document.getElementById("tipoform").value;};
+
+
+      
+
+
+      
+      if (modo==1){
+      if(txtNombres==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtApellidos==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtSexo==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtFechaNacimiento==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtCorreo==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtPassword==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtTipoDocumento==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtTelefono==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtMunicipio==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      if(txtTipoPoblacion==""){alert("Faltan datos por registrar! por favor registre sus datos");return;}
+      
+      }
+
+
+
+      if (txtTelefono==""){
+        alert("Faltan datos por registrar! por favor registre sus datos");return
+      } 
+
+      if ( txtCorreo=="" ){
+       alert("Faltan datos por registrar! por favor registre sus datos");return
+      } 
+
+      if ( txtTipoPoblacion==""){
+       alert("Faltan datos por registrar! por favor registre sus datos");return
+      } 
+ 
+
       validar1=document.getElementById('filePDF').value;
       validar2=document.getElementById('filePDF1').value;
       validar3=document.getElementById('filePDF2').value;
@@ -369,28 +438,162 @@ document.addEventListener('DOMContentLoaded', () => {
       validar1 = validar1.split('.'); 
       validar2 = validar2.split('.'); 
       validar3 = validar3.split('.');    
+      control1=0;
+      control2=0;
+      control3=0;
 
-      if(validar1[validar1 .length-1] == 'pdf' || validar1[validar1 .length-1]=="")       
-      return true;  
+      if (opcionDocumento==""){
+      alert ("Por favor Seleccione una opcion para anexar documento");
+      }
+
+      if (opcionDocumento==1){
+
+        if(validar1[validar1 .length-1] == 'pdf')  {
+
+          control1=1;
+          } else{alert('Por favor anexar un archivo en formato pdf')       
+          return} 
+
+      }
+
+      if (opcionDocumento==2){
+      
+      if(validar2[validar2 .length-1] == 'jpg' || validar2[validar2 .length-1] == 'jpge' ){
+
+        control2=1;
+      }else{alert('Por favor anexar un archivo en formato imagen o foto');       
+      return} 
+      }
+
+      if (opcionDocumento==2){
+      if(validar3[validar3 .length-1] == 'jpg' || validar3[validar2 .length-1] == 'jpge'){
+       control3=1;
+      }else{alert('Por favor anexar un archivo en formato imagen o foto');       
+      return} 
+      }
+
+      
+      
+      if (opcionDocumento==1 & control1==1){
+
+      $('#form1').css('display', 'none');
+      $('#form2').css('display', 'block');
+      $("#atras").show(); 
+      //$("#inscribir").show(); 
+      $("#gfgcerrar").hide(); 
+      $("#continuar").hide();
+      $("#inscribir").show();  
+    
+      document.getElementById("inscritoSofia").value="";
+      }
+
+      if (opcionDocumento==2 & control2==1 & control3==1){
+
+        $('#form1').css('display', 'none');
+      $('#form2').css('display', 'block');
+      $("#atras").show(); 
+      //$("#inscribir").show(); 
+      $("#gfgcerrar").hide(); 
+      $("#continuar").hide();
+      $("#inscribir").show();  
+    
+      document.getElementById("inscritoSofia").value="";
+      }
+
+      if (opcionDocumento==3){
+        $('#form1').css('display', 'none');
+      $('#form2').css('display', 'block');
+      $("#atras").show(); 
+      //$("#inscribir").show(); 
+      $("#gfgcerrar").hide(); 
+      $("#continuar").hide();
+      $("#inscribir").show(); 
+      
+      document.getElementById("inscritoSofia").value="";
+    
         
-      else{alert('El archivo debe ser en formato pdf');       
-      return false;} 
-      
-      if(validar2[validar2 .length-1] == 'jpg' || validar2[validar2 .length-1]=="" || validar2[validar2 .length-1] == 'jpge'  )       
-      return true;    
-      else{alert('El archivo debe ser en formato imagen');       
-      return false;} 
+      }
 
-      if(validar3[validar3 .length-1] == 'jpg' || validar3[validar3 .length-1]=="" || validar3[validar2 .length-1] == 'jpge')       
-      return true;    
-      else{alert('El archivo debe ser en formato imagen');       
-      return false;} 
+
+
       
+
+
+      control1=0;
+      control2=0;
+      control3=0;
+      opcionDocumento="";
+
+      
+      
+                
+      
+
       
       
     
     } 
 
+    var formsofiaplis="";
+
+      function sofiaPlus(){
+
+      formsofiaplis = document.getElementById("inscritoSofia").value;
+
+
+      if (formsofiaplis==""){
+        alert("Por favor Seleccione una opcion");
+      }
+
+      if (formsofiaplis=="No"){
+        $('#form4').css('display', 'block');
+        $('#Pais').prop("required", true)
+        $('#Departamento').prop("required", true)
+        $('#Municipio').prop("required", true)
+        $('#expedicion').prop("required", true)
+        $('#Pais2').prop("required", true)
+        $('#Departamento2').prop("required", true)
+        $('#Municipio2').prop("required", true)
+      }
+      if (formsofiaplis=="Si"){
+        $('#form4').css('display', 'none');
+        //$('#Pais').prop("required", true)
+        $('#Pais').removeAttr("required");
+        $('#Departamento').removeAttr("required");
+        $('#Municipio').removeAttr("required");
+        $('#expedicion').removeAttr("required");
+        $('#Pais2').removeAttr("required");
+        $('#Departamento2').removeAttr("required");
+        $('#Municipio2').removeAttr("required");
+
+
+
+      }
+
+      //formsofiaplis="";
+
+      }
+
+      function regresar(){
+        $('#form1').css('display', 'block');
+        $('#form2').css('display', 'none');
+        $('#form4').css('display', 'none');
+        $("#gfgcerrar").show();
+        $("#continuar").show();
+        $("#inscribir").hide();
+        $("#atras").hide();
+        document.getElementById("documento").value="";
+
+      }
+
+
+
+      
+
+       
+
+      
+    
     
 
 </script>

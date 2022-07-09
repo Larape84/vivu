@@ -54,10 +54,14 @@ if (isset($_SESSION['user_id'])) {
 
 <br>
 
+<button onclick="ocultar()" class="btn btn-warning">Ocultar / Mostrar Registrar nuevos POA</button>
 
 <div class="ocular" id="ocultar" name="ocultar" >
 <div class="container center-fluid">
-    
+
+
+
+
 <form action="operaciones.php" method="POST">
   <div class="form-group">
     <label for="exampleInputEmail1">Municipio</label>
@@ -102,7 +106,7 @@ if (isset($_SESSION['user_id'])) {
 
 <br>
 </div>
-
+<br><br>
 <table id="tabla" class="table table-striped">
       <thead>
         <tr>
@@ -112,9 +116,9 @@ if (isset($_SESSION['user_id'])) {
           <th style="width:100px">Enlace</th>
           <th style="width:50px">Telefono</th>
           <th style="width:80px">Tipo Poblacion</th>
-          <th style="width:80px">Ocupacion Productiva</th>
-          <th style="width:50px">Cursos</th>
-          <th style="width:250px">Gestion del Poa</th>
+          <th style="width:80px">Vocacion Productiva</th>
+          <th style="width:30px">Cursos</th>
+          <th style="width:280px">Gestion del Poa</th>
 
         </tr>
         <tr>
@@ -173,7 +177,7 @@ if (isset($_SESSION['user_id'])) {
                     <button class="gfgselect btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span ></span>Editar</button>
                     <button class="gfgdelete btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete"><span ></span>Borrar</button>
 
-                    <a href=Gestion_cursos.php?id='.$row->id_poa.' <button class="gfgdelete btn btn-warning btn-xs" ><span ></span>Ver Cursos</button></a> 
+                    <a href=Gestion_cursos.php?id='.$row->id_poa.' <button class="gfg btn btn-warning btn-xs" ><span ></span>Ver Cursos</button></a> 
 
                     <button class="gfgenlace btn btn-success btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropenlace"><span ></span>Enlace</button>
                     
@@ -206,7 +210,7 @@ if (isset($_SESSION['user_id'])) {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       <div class="GFGclass" 
+       <div class="divGFG" 
         id="divGFG"></div>
       </div>
     </div>
@@ -217,7 +221,7 @@ if (isset($_SESSION['user_id'])) {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Desea Eliminar el Registro</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Registro POA</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -270,8 +274,102 @@ var busqueda = document.getElementById('buscar');
 
     busqueda.addEventListener('keyup', buscaTabla);
 
+
     var a="";
     $(function () {
+                // ON SELECTING ROW
+                $(".gfgselect").click(function () {
+   //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                    a="";
+                    b="";
+                    c="";
+                    d="";
+                    e="";
+                    f="";
+                    g="";
+
+                    b = $(this).parents("tr").find(".gfgnombres").text();
+                    c = $(this).parents("tr").find(".gfgPersona_Enlace").text();
+                    d = $(this).parents("tr").find(".gfgTelefono_Enlace").text();
+                    e = $(this).parents("tr").find(".gfgOcupacion_Productiva").text();
+                    f = $(this).parents("tr").find(".gfgmunicipio").text();
+                    g = $(this).parents("tr").find(".gfgPoblacion").text();
+                    a = $(this).parents("tr").find(".gfgid").text();
+                     
+
+                    var p="";
+                    
+                           
+  p+=' <form method="POST" action="operaciones.php">'+
+  '<div class="form-group">'+
+    '<label for="gfgnombres">Nombre del Poa</label>'+
+    '<input type="text" required class="form-control" id="gfgnombres" name="gfgnombres" placeholder="Nombre persona enlace" value="'+b+'">'+
+  '</div>'+
+
+  '<div class="form-group">'+
+    '<label for="gfgPersona_Enlace">Persona enlace Poa</label>'+
+    '<input  type="text" required class="form-control" id="gfgPersona_Enlace" name="gfgPersona_Enlace" placeholder="" value="'+c+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgTelefono_Enlace">Telefono del enlace Poa</label>'+
+    '<input type="number" required class="form-control" id="gfgTelefono_Enlace" name="gfgTelefono_Enlace" placeholder="" value="'+d+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgmunicipio">Municipio del POA</label>'+
+    '<input readonly type="text" class="form-control" id="gfgmunicipio" name="gfgmunicipio" placeholder="" value="'+f+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgmunicipio">Vocacion Productiva</label>'+
+    '<input type="text" required class="form-control" id="gfgOcupacion_Productiva" name="gfgOcupacion_Productiva" placeholder="" value="'+e+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgPoblacion">Poblacion del POA</label>'+
+    '<input readonly type="text" class="form-control" id="gfgPoblacion" name="gfgPoblacion" placeholder="" value="'+g+'">'+
+  '</div> '+
+  
+  '<input style="diplay:none;" hidden type="text" class="form-control" id="operacion" name="operacion" placeholder="" value="8">'+
+  '<input style="diplay:none;" hidden type="text" class="form-control" id="poa_id" name="poa_id" placeholder="" value="'+a+'">'
+
+  ;
+  p+='<div class="modal-footer">'+
+       '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+       '<button type="submit" class="btn btn-primary">Actualizar</button>'+
+      '</div></form>'
+
+      
+                    $("#divGFG").empty();
+                    //WRITING THE DATA ON MODEL
+                    $("#divGFG").append(p);
+                   
+                  });
+            });
+
+
+            function download() {
+              
+                  axios({
+                        url: 'https://chart.googleapis.com/chart?chs=300x300&cht=qr&choe=UTF-8&chl=https://www.vivu.com.co/vivuWeB/cursosReg.php?poa='+a+'',
+                        method: 'GET',
+                        responseType: 'blob'
+                  })
+                        .then((response) => {
+                              const url = window.URL
+                                    .createObjectURL(new Blob([response.data]));
+                              const link = document.createElement('a');
+                              link.href = url;
+                              link.setAttribute('download', 'imageQR.jpg');
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                        })
+            };
+
+
+            $(function () {
                 // ON SELECTING ROW
                 $(".gfgenlace").click(function () {
    //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
@@ -283,7 +381,7 @@ var busqueda = document.getElementById('buscar');
                     var qr="";
                     p+='<div class="form-group">'+
     '<label for="exampleInputPassword1">Compartir Enlace</label>'+
-    '<input type="text" class="form-control" id="periodo" name="periodo" placeholder="Periodo" value="https://www.vivu.com.co/vivuWeB/cursosReg.php?poa='+a+'" readyonly >'+
+    '<input readonly type="text" class="form-control" id="periodo" name="periodo" placeholder="Periodo" value="https://www.vivu.com.co/vivuWeb/cursosReg.php?poa='+a+'">'+
   '</div>';
   z+='<div class="modal-footer">'+
        '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
@@ -291,7 +389,7 @@ var busqueda = document.getElementById('buscar');
       '</div>'
 
       qr+='<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;"'+
-      'src="https://chart.googleapis.com/chart?chs=300x300&amp;cht=qr&amp;choe=UTF-8&amp;chl=https://www.vivu.com.co/vivuWeB/cursosReg.php?poa='+a+'">'
+      'src="https://chart.googleapis.com/chart?chs=300x300&amp;cht=qr&amp;choe=UTF-8&amp;chl=https://www.vivu.com.co/vivuWeb/cursosReg.php?poa='+a+'">'
 
                     $("#enlace").empty();
                     $("#codigo").empty();
@@ -325,6 +423,126 @@ var busqueda = document.getElementById('buscar');
                               document.body.removeChild(link);
                         })
             }
+
+function ocultar(){$("#ocultar").toggle();}
+          
+$("#ocultar").toggle();
+
+
+$(function () {
+                // ON SELECTING ROW
+                $(".gfgdelete").click(function () {
+
+                  h = $(this).parents("tr").find(".gfgcursos").text();
+
+                  if (h>0){
+
+                    var p="";
+                    
+                           
+                    p+=' <form>'+
+                    '<div class="form-group">'+
+                      '<label for="gfgnombres">Mensaje</label>'+
+                      '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede eliminar este POA - tiene formaciones registradas</textarea>'+
+                    '</div>';
+                    p+='<div class="modal-footer">'+
+
+       '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+       
+      '</div></form>'
+                   
+
+                  }
+                  
+                  if (h==0){
+
+                    a="";
+                    b="";
+                    c="";
+                    d="";
+                    e="";
+                    f="";
+                    g="";
+
+                    b = $(this).parents("tr").find(".gfgnombres").text();
+                    c = $(this).parents("tr").find(".gfgPersona_Enlace").text();
+                    d = $(this).parents("tr").find(".gfgTelefono_Enlace").text();
+                    e = $(this).parents("tr").find(".gfgOcupacion_Productiva").text();
+                    f = $(this).parents("tr").find(".gfgmunicipio").text();
+                    g = $(this).parents("tr").find(".gfgPoblacion").text();
+                    a = $(this).parents("tr").find(".gfgid").text();
+                     
+
+                    var p="";
+                    
+                           
+  p+=' <form method="POST" action="operaciones.php">'+
+  '<div class="form-group">'+
+    '<label for="gfgnombres">Nombre del Poa</label>'+
+    '<input readonly type="text" required class="form-control" id="gfgnombres" name="gfgnombres" placeholder="Nombre persona enlace" value="'+b+'">'+
+  '</div>'+
+
+  '<div class="form-group">'+
+    '<label for="gfgPersona_Enlace">Persona enlace Poa</label>'+
+    '<input  readonly type="text" required class="form-control" id="gfgPersona_Enlace" name="gfgPersona_Enlace" placeholder="" value="'+c+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgTelefono_Enlace">Telefono del enlace Poa</label>'+
+    '<input readonly type="number" required class="form-control" id="gfgTelefono_Enlace" name="gfgTelefono_Enlace" placeholder="" value="'+d+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgmunicipio">Municipio del POA</label>'+
+    '<input readonly type="text" class="form-control" id="gfgmunicipio" name="gfgmunicipio" placeholder="" value="'+f+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgmunicipio">Vocacion Productiva</label>'+
+    '<input readonly type="text" required class="form-control" id="gfgOcupacion_Productiva" name="gfgOcupacion_Productiva" placeholder="" value="'+e+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgPoblacion">Poblacion del POA</label>'+
+    '<input readonly type="text" class="form-control" id="gfgPoblacion" name="gfgPoblacion" placeholder="" value="'+g+'">'+
+  '</div> '+
+  
+  '<input style="diplay:none;" hidden type="text" class="form-control" id="operacion" name="operacion" placeholder="" value="9">'+
+  '<input style="diplay:none;" hidden type="text" class="form-control" id="poa_id" name="poa_id" placeholder="" value="'+a+'">'
+
+  ;
+  p+='<div class="modal-footer">'+
+       '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+       '<button type="submit" class="btn btn-danger">Eliminar</button>'+
+      '</div></form>'
+
+
+                  }
+
+   //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                    
+
+      
+                    $("#delete").empty();
+                    //WRITING THE DATA ON MODEL
+                    $("#delete").append(p);
+                   
+                  });
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </script>

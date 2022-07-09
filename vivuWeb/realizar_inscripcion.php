@@ -5,6 +5,8 @@ session_start();
 
 if (isset($_POST["user_id"]) & isset($_POST["poblacion"]) ){
 
+include 'conexion1.php';
+
 $usuario=$_POST["user_id"];
 
 $poblacion=$_POST["poblacion"];
@@ -13,6 +15,9 @@ $telefono=$_POST["txtTelefono"];
 $modo_Guardar=$_POST["documento"];
 $curso=$_POST["id_curso"];
 
+$sql = "UPDATE users SET tipoPoblacion='$poblacion', email='$correo', telefono='$telefono' WHERE users.id=".$usuario ;
+
+$resultado2 = $mysqli->query($sql);
 
 } else {
 
@@ -57,6 +62,41 @@ $curso=$_POST["id_curso"];
 }
 
 
+//codigo para evitar varios registros
+
+
+
+
+
+
+
+
+
+
+$registro_sofia=$_POST["inscritoSofia"];
+if ($registro_sofia=="No"){
+
+$pais_nacimiento=$_POST["Pais"];
+$departamento_nacimiento=$_POST["Departamento"];
+$municipio_nacimiento=$_POST["Municipio"];
+$fecha_exped_cedula=$_POST["expedicion"];
+$pais_cedula=$_POST["Pais2"];
+$departamento_cedula=$_POST["Departamento2"];
+$municipio_cedula=$_POST["Municipio2"];
+
+$sql = "INSERT INTO no_inscritos_sofiaplus (pais_nacimiento, departamento_nacimiento, municipio_nacimiento, fecha_exped_cedula, pais_cedula, departamento_cedula, municipio_cedula, id_users, registro_sofia, curso_id) VALUES ('$pais_nacimiento','$departamento_nacimiento','$municipio_nacimiento','$fecha_exped_cedula','$pais_cedula','$departamento_cedula', '$municipio_cedula','$usuario','$registro_sofia','$curso')";
+
+$resultado1 = $mysqli->query($sql);
+
+}
+
+
+
+
+
+
+
+
 
 if ($modo_Guardar==1){
 
@@ -67,6 +107,8 @@ if ($modo_Guardar==1){
     $NombreArchivo = $InformacionArchivo['filename'];
     $Extension = $InformacionArchivo['extension'];
     $ArchivoPDF = $usuario.".".$Extension;
+
+    var_dump($fichero);
 
     $Ubicacion = 'files/'.$ArchivoPDF;
     copy( $_FILES['filePDF']['tmp_name'], $Ubicacion);
@@ -90,6 +132,7 @@ if ($modo_Guardar==1){
     $sql = "INSERT INTO cursos_detalle (id_users, id_gestion_cursos, modo_Documento, id_Docuemnto) VALUES ('$usuario','$curso','documento anexo','$id_archivo')";
 
     $resultado1 = $mysqli->query($sql);
+
     $mysqli->close();
     $_SESSION['estado'] = "Se ha registrado Correctamente en el Curso";
     $_SESSION['valor'] = 1;
@@ -163,7 +206,7 @@ $resultado1 = $mysqli->query($sql);
     $mysqli->close();
     $_SESSION['estado'] = "Se ha registrado Correctamente en el Curso";
     $_SESSION['valor'] = 1;
-    header("Location: CursosReg.php");
+   header("Location: CursosReg.php");
 
 
 

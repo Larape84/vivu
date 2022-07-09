@@ -7,11 +7,11 @@
 
 if (isset($_GET['id'])){
 $id=$_GET['id'];
-$_SESSION['id_poa']=$id;
+$_SESSION['id_curso']=$id;
 
 }
 
-$id=$_SESSION['id_poa'];
+$id=$_SESSION['id_curso'];
 
 //var_dump($_SESSION['id_poa']);
 

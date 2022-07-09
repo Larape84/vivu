@@ -27,7 +27,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
 	$sql="SELECT id, nombres, apellidos, tipodocumento, documento, tipoPoblacion, email, password, 
 	fechaRegistro, rol, fecha_sesion, telefono, fechaNacimiento, municipio, sexo, img, centro 
-	FROM users WHERE email = '$Correo_Electronico'";
+	FROM users WHERE documento = '$Correo_Electronico'";
 	$result_login = mysqli_fetch_row(mysqli_query($conexion,$sql));
 	$user = null;
   
@@ -95,8 +95,8 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
       <div class="modal-body">
         <form action="recover.php" method="POST">
           <div class="form-group">
-            <label for="txtCorreo" class="col-form-label" requerid><i class="fa fa-envelope" aria-hidden="true"></i> Correo electronico:</label>
-            <input type="email" class="form-control" id="txtCorreo" name="txtCorreo" required="" >
+            <label for="txtCorreo" class="col-form-label" requerid><i class="fa fa-envelope" aria-hidden="true"></i> Documento:</label>
+            <input type="number" class="form-control" id="txtCorreo" name="txtCorreo" required="" >
           </div>
 
         </div>
@@ -131,8 +131,8 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
             <form class="simple_form new_user" id="new_user" action="sign_in.php" accept-charset="UTF-8" method="post">
               <div class="form-group">
                 <div class="form-group email optional user_email">
-                  <label class="control-label email optional" for="user_email"><i class="fa fa-envelope" aria-hidden="true"></i> Correo electrónico</label>
-                  <input class="form-control string email optional form-control input-lg" autocomplete="email" autofocus="autofocus" placeholder="Usuario" required=""  type="email" value="" name="email" id="user_email" />
+                  <label class="control-label users optional" for="user_email"><i class="fa fa-envelope" aria-hidden="true"></i> Nro de documento</label>
+                  <input class="form-control string users optional form-control input-lg" autocomplete="" autofocus="autofocus" placeholder="Usuario" required=""  type="number" value="" name="email" id="user_email" />
                 </div>
               </div>
               <div class="form-group">

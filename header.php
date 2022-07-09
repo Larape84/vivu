@@ -8,7 +8,7 @@
           
          
          
-            <a href="./index.php"><img width="215px" src="./assets/logoSena.png" alt="Logosena" /></a>
+            <a href="./index.php"><img width="215px" src="./assets/Logosimbolo.png" alt="Logosena" /></a>
         
             
          
