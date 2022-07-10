@@ -19,16 +19,32 @@ $consulta="SELECT * FROM files_concertaciones, gestion_cursos, concertaciones WH
       
 
         echo '<div class="container"> 
-        <label for="curso">Se han concertado los siguientes programas de formacion para esta acta:</label>';
+        <label for="curso">Se han concertado los siguientes programas de formacion para esta acta:</label>
+        
+        <div class="form-group row">
+        <div class="col-sm-3">Cursos concertados</div>
+        <div class="col-sm-9">
+        
+        
+        ';
       
       while ($row = $query->fetch_object()) {
 
         Echo '
         <form action="operaciones.php" method="POST">
 
+        
+
+     <div class="form-check">
+        <input class="form-check-input" required type="checkbox" id="check'.$vueltas.'" name="check'.$vueltas.'" value="'.$row->id_Gestion_Cursos.'">
+        <label class="form-check-label" for="gridCheck1">
+        '.$row->Nombre_Curso.'
+        </label>
+      </div>
+
+      
+
         <div class="form-group">
-            <input readonly type="text" class="form-control col-auto" id="curso_nombre" value="'.$row->Nombre_Curso.'" name="curso_nombre" placeholder="">
-            <input hidden type="text" class="form-control" id="id'.$vueltas.'"  name="id'.$vueltas.'" value="'.$row->id_Gestion_Cursos.'" name placeholder="">
             <input hidden type="text" class="form-control" id="vueltas"  name="vueltas" value="'.$vueltas.'" name placeholder="">
         </div>';
 
@@ -39,10 +55,15 @@ $consulta="SELECT * FROM files_concertaciones, gestion_cursos, concertaciones WH
 
       echo '
 
+      
+
       <input hidden type="text" class="form-control col-auto" id="operacion" value="13" name="operacion" placeholder="">
+      <input hidden type="text" class="form-control col-auto" id="id_acta" value="'.$id.'" name="id_acta" placeholder="">
+      
+      <br>
       
       <div class="input-group mb-3">
-        <select type="text" class="form-select col-5" placeholder="" aria-label="" aria-describedby="basic-addon2" required>
+        <select type="text" class="form-select col-6" placeholder="" name="acta_estado" id="acta_estado" aria-label="" aria-describedby="basic-addon2" required>
         <option value="" selected></option>
         <option value="Acta valida">Acta valida</option>
         <option value="Acta NO valida">Acta NO valida</option>
@@ -59,7 +80,7 @@ $consulta="SELECT * FROM files_concertaciones, gestion_cursos, concertaciones WH
         ';
 
 
-       
+      
 
 
 

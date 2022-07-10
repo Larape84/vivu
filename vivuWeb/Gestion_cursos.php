@@ -49,10 +49,13 @@ $id=$_SESSION['id_poa'];
         }
     ?>
 
+<?php
 
+if ($_SESSION['alianza']==1){}else{echo '<button onclick="ocultar()" class="btn btn-warning">Ocultar / Mostrar Registrar Nuevos Cursos</button>
+  <button  class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdropconcertaciones" >Mis Concertaciones</button>';}
 
-<button onclick="ocultar()" class="btn btn-warning">Ocultar / Mostrar Registrar Nuevos Cursos</button>
-<button  class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdropconcertaciones" >Mis Concertaciones</button>
+?>
+
 
 <div class="ocular" id="ocultar" name="ocultar" >
   
@@ -176,6 +179,7 @@ while ($row = $query->fetch_object()) {
 </div>
 </form>
 </div>
+
 </div>
 
 <br><br>
@@ -235,8 +239,11 @@ while ($row = $query->fetch_object()) {
 
     echo '
     <td class="gfgid" style="display:none" >'.$row->id_Gestion_Cursos.'</td> 
-    <td> <button class="gfgselect btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span ></span>Editar</button>
-    <button class="gfgdelete btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete"><span ></span>Borrar</button>
+    <td> ';
+    if ($_SESSION['alianza']==1){}else{echo '
+    <button class="gfgselect btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span ></span>Editar</button>
+    <button class="gfgdelete btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete"><span ></span>Borrar</button>';}
+   echo '
     <a href=cursos_detalle.php?id='.$row->id_Gestion_Cursos.' <button class="btn btn-warning btn-xs" ><span ></span>Ver Detalle</button></a> 
     
     </td>
@@ -353,6 +360,11 @@ while ($row = $query->fetch_object()) {
 $valores=$valores+1;
  }
 
+ if ($valores==0){
+
+  echo ' No existen formaciones concertadas, para habilitar esta opcion debe concertar formaciones';
+ }
+
 ?>
       
 
@@ -367,8 +379,8 @@ $valores=$valores+1;
                 <div class="mb-3">
                 <label for="formFile" class="form-label">Seleccione Acta de concertacion</label>
                 <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
-                <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
-                <input class="form-control" type="file" id="fileconcertacion" name="fileconcertacion" required>
+                <input type="hidden" name="MAX_FILE_SIZE" value="300000000" />
+                <input class="form-control" type="file" id="fileconcertacion" name="fileconcertacion" required accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf">
                 </div>
                 
 
@@ -461,6 +473,23 @@ function required(){
                     '<div class="form-group">'+
                       '<label for="gfgnombres">Mensaje</label>'+
                       '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede modificar un curso que ha sido CONCERTADO con el enlace</textarea>'+
+                    '</div>';
+                    p+='<div class="modal-footer">'+
+
+       '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+       
+      '</div></form>'
+
+
+
+
+  } else if (g=="Activo"){
+
+
+    p+=' <form>'+
+                    '<div class="form-group">'+
+                      '<label for="gfgnombres">Mensaje</label>'+
+                      '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede modificar un curso que se encuentra activo, el mismo esta habilitado para inscripciones</textarea>'+
                     '</div>';
                     p+='<div class="modal-footer">'+
 
@@ -630,7 +659,24 @@ function required(){
 
 
 
-  }else{
+  }else if (g=="Activo"){
+
+
+p+=' <form>'+
+                '<div class="form-group">'+
+                  '<label for="gfgnombres">Mensaje</label>'+
+                  '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede eliminar un curso que se encuentra activo, el mismo esta habilitado para inscripciones</textarea>'+
+                '</div>';
+                p+='<div class="modal-footer">'+
+
+   '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+   
+  '</div></form>'
+
+
+
+
+} else{
    
    
   p+=' <div class="container center-fluid">'+

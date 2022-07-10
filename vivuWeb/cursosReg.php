@@ -132,7 +132,7 @@ if(isset($_GET['poa'])){
       <?php
 
 
-$consulta='SELECT * FROM gestion_cursos, poa WHERE gestion_cursos.Estado_Curso="registrado" AND gestion_cursos.id_nombre_poa=poa.id_poa AND  gestion_cursos.Municipio_Curso LIKE "%'.$municipiofiltro.'%" AND poa.id_poa LIKE "%'.$poa.'%"';
+$consulta='SELECT * FROM gestion_cursos, poa WHERE gestion_cursos.Estado_Curso="activo" AND gestion_cursos.id_nombre_poa=poa.id_poa AND  gestion_cursos.Municipio_Curso LIKE "%'.$municipiofiltro.'%" AND poa.id_poa LIKE "%'.$poa.'%"';
 
 $query = $mysqli->query($consulta);
 

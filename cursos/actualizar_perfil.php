@@ -27,10 +27,11 @@ $nombre_carpeta = "cursos";
 $sql_info="SELECT id, nombres, apellidos, tipodocumento, documento, tipoPoblacion, email, password, 
   fechaRegistro, rol, fecha_sesion, telefono, fechaNacimiento, municipio, sexo, img, centro 
   FROM users WHERE documento = $No_documento";
-$result_ = mysqli_query($conexion,$sql_info);
+
+//$result_ = mysqli_query($conexion,$sql_info);
 
 $result_info = mysqli_fetch_array(mysqli_query($conexion,$sql_info));
-$num_rows = ($result_info['id']);
+$num_rows =1;
 
 $datos = $result_info;
 

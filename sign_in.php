@@ -40,6 +40,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
     $_SESSION['rol']= $user[9];
     $_SESSION['nombre']= $user[1];
     $_SESSION['apellido']= $user[2];
+    $_SESSION['alianza']=0; 
     $fecha=date('y-m-d');
     include 'save-fecha-sesion.php';
 

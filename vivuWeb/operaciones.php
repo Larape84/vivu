@@ -17,6 +17,7 @@ operacion 9 = eliminar poa
 operacion 10 = actualizar curso que no este concertado
 operacion 11 = eliminar curso que no este concertado
 operacion 12 = subir actas de concertacion
+operacion 13 = validar acta de concertacion
 
 
  */
@@ -182,7 +183,7 @@ switch ($o) {
             $periodo=$_POST['periodo'];
             $enlace_poblacion=$_POST['poblacion'];
             $cargo=$_POST['cargo'];
-            $poa_id=(int)$_POST['poa'];
+            $poa_id=$_POST['poa'];
             
             var_dump($id_User,$municipio,$periodo,$enlace_poblacion,$cargo,$poa_id);
 
@@ -337,152 +338,209 @@ switch ($o) {
 
        break;
 
-case 10: 
-    try {
-        include 'conexion1.php';
-
-       
-        $curso_id=$_POST['poa_id'];
+    case 10: 
+        try {
+            include 'conexion1.php';
 
         
-        $Centro_Formacion=$_POST['Centro_Formacion'];
-        $Nivel_Formacion=$_POST['Nivel_Formacion'];
-        $Nombre_Curso=$_POST['Nombre_Curso'];
-        $categoria=$_POST['categoria'];
-        $Mes_Poa=$_POST['Mes_Poa'];
-        $Estado_Curso=$_POST['Estado'];
-        $Direccion=$_POST['Direccion'];
+            $curso_id=$_POST['poa_id'];
+
+            
+            $Centro_Formacion=$_POST['Centro_Formacion'];
+            $Nivel_Formacion=$_POST['Nivel_Formacion'];
+            $Nombre_Curso=$_POST['Nombre_Curso'];
+            $categoria=$_POST['categoria'];
+            $Mes_Poa=$_POST['Mes_Poa'];
+            $Estado_Curso=$_POST['Estado'];
+            $Direccion=$_POST['Direccion'];
 
 
-      $sql = "UPDATE gestion_cursos SET Centro_Formacion='$Centro_Formacion', Nivel_Formacion='$Nivel_Formacion', Nombre_Curso='$Nombre_Curso', categoria='$categoria', Mes_Poa='$Mes_Poa', Estado_Curso='$Estado_Curso', Direccion='$Direccion' WHERE id_Gestion_Cursos=$curso_id";
+        $sql = "UPDATE gestion_cursos SET Centro_Formacion='$Centro_Formacion', Nivel_Formacion='$Nivel_Formacion', Nombre_Curso='$Nombre_Curso', categoria='$categoria', Mes_Poa='$Mes_Poa', Estado_Curso='$Estado_Curso', Direccion='$Direccion' WHERE id_Gestion_Cursos=$curso_id";
 
 
-       $resultado1 = $mysqli->query($sql);
+        $resultado1 = $mysqli->query($sql);
 
-         $_SESSION['estado'] = "Registro actualizado correctamente";
-          $_SESSION['valor'] = "1";
-         $mysqli->close();
-    
-            header("Location: Gestion_cursos.php");
-            } catch (Exception $e) {
-                $_SESSION['estado'] =$e->getMessage();
+            $_SESSION['estado'] = "Registro actualizado correctamente";
+            $_SESSION['valor'] = "1";
+            $mysqli->close();
+        
                 header("Location: Gestion_cursos.php");
-                $mysqli->close();
+                } catch (Exception $e) {
+                    $_SESSION['estado'] =$e->getMessage();
+                    header("Location: Gestion_cursos.php");
+                    $mysqli->close();
+                }
+                //var_dump($_SESSION);
+        
+
+
+
+
+            break;
+
+    case 11:  
+        try {
+            include 'conexion1.php';
+
+        
+            $id=$_POST['poa_id'];
+
+        $sql = "DELETE from gestion_cursos WHERE id_Gestion_Cursos=$id";
+
+
+        $resultado1 = $mysqli->query($sql);
+
+        $_SESSION['estado'] = "Registro Eliminado correctamente";
+        $_SESSION['valor'] = "1";
+        $mysqli->close();
+        
+        header("Location: Gestion_cursos.php");
+        } catch (Exception $e) {
+            $_SESSION['estado'] =$e->getMessage();
+            header("Location: Gestion_cursos.php");
+            $mysqli->close();
+        }
+        //var_dump($_SESSION); 
+                break;
+
+
+
+    case 12:   
+        include 'conexion1.php';
+
+        
+        $valores=$_POST['valores'];
+        $usuario=$_SESSION["user_id"];
+        $Mes_Poa=$_POST["Mes_Poa"];
+        $Vigencia=$_POST["Vigencia"];
+
+        $fichero = $_FILES["fileconcertacion"];
+
+        $InformacionArchivo = pathinfo($_FILES['fileconcertacion']['name']);
+        $NombreArchivo = $_FILES['fileconcertacion']['name'];
+        $NombreArchivo = $InformacionArchivo['filename'];
+        $Extension = $InformacionArchivo['extension'];
+        $ArchivoPDF = time().".".$Extension;
+
+        $Ubicacion = 'concertaciones/'.$ArchivoPDF;
+        copy( $_FILES['fileconcertacion']['tmp_name'], $Ubicacion);
+
+
+
+        $sql = "INSERT INTO files_concertaciones (mes_concertacion, ruta, users_id, estado, vigencia) VALUES ('$Mes_Poa','$Ubicacion', '$usuario','por validar','$Vigencia')";
+
+        $resultado1 = $mysqli->query($sql);
+
+
+        $sql = "SELECT * FROM files_concertaciones WHERE ruta='$Ubicacion'";
+
+        $query = $mysqli->query($sql);
+
+        while ($row = $query->fetch_object()) {
+            $id_archivo=$row->id_file_concertaciones;
             }
-            //var_dump($_SESSION);
-    
+
+            // echo  $id_archivo;
+        
+        
+            for ($i=0; $i<=$valores; $i++){
+            
+                $cursos_id=$_POST["check$i"];
+
+                $sql = "INSERT INTO concertaciones (id_concertacion, id_usuario, id_gestion_cursos) VALUES ('$id_archivo','$usuario','$cursos_id')";
+
+                $resultado1 = $mysqli->query($sql);
+
+                $sql = "UPDATE gestion_cursos SET Estado_Curso='Concertado acta' WHERE id_Gestion_Cursos=$cursos_id";
+
+                $resultado1 = $mysqli->query($sql);
+
+
+            }
+
+        
+
+        $_SESSION['estado'] = "Se ha registrado correctamente acta de concertacion";
+        $_SESSION['valor'] = 1;
+        
+        //var_dump($resultado1);
+        $mysqli->close();
+        header("Location: Gestion_cursos.php"); 
+
+
+
+
+
+
 
 
 
 
         break;
 
-case 11:  
-    try {
+
+
+
+
+
+    case 13: 
+
         include 'conexion1.php';
 
-       
-        $id=$_POST['poa_id'];
-
-    $sql = "DELETE from gestion_cursos WHERE id_Gestion_Cursos=$id";
-
-
-    $resultado1 = $mysqli->query($sql);
-
-    $_SESSION['estado'] = "Registro Eliminado correctamente";
-    $_SESSION['valor'] = "1";
-    $mysqli->close();
-    
-    header("Location: Gestion_cursos.php");
-    } catch (Exception $e) {
-        $_SESSION['estado'] =$e->getMessage();
-        header("Location: Gestion_cursos.php");
-        $mysqli->close();
-    }
-    //var_dump($_SESSION); 
-            break;
-
-
-
-case 12:   
-    include 'conexion1.php';
-
-       
-    $valores=$_POST['valores'];
-    $usuario=$_SESSION["user_id"];
-    $Mes_Poa=$_POST["Mes_Poa"];
-    $Vigencia=$_POST["Vigencia"];
-
-    $fichero = $_FILES["fileconcertacion"];
-
-    $InformacionArchivo = pathinfo($_FILES['fileconcertacion']['name']);
-    $NombreArchivo = $_FILES['fileconcertacion']['name'];
-    $NombreArchivo = $InformacionArchivo['filename'];
-    $Extension = $InformacionArchivo['extension'];
-    $ArchivoPDF = time().".".$Extension;
-
-    $Ubicacion = 'concertaciones/'.$ArchivoPDF;
-    copy( $_FILES['fileconcertacion']['tmp_name'], $Ubicacion);
-
-
-
-    $sql = "INSERT INTO files_concertaciones (mes_concertacion, ruta, users_id, estado, vigencia) VALUES ('$Mes_Poa','$Ubicacion', '$usuario','por validar','$Vigencia')";
-
-    $resultado1 = $mysqli->query($sql);
-
-
-    $sql = "SELECT * FROM files_concertaciones WHERE ruta='$Ubicacion'";
-
-    $query = $mysqli->query($sql);
-
-    while ($row = $query->fetch_object()) {
-        $id_archivo=$row->id_file_concertaciones;
-         }
-
-        // echo  $id_archivo;
-    
-    
-         for ($i=0; $i<=$valores; $i++){
         
-            $cursos_id=$_POST["check$i"];
+        $valores=$_POST['vueltas'];
+        $acta_estado=$_POST['acta_estado'];
+        $id_acta=$_POST['id_acta'];
 
-            $sql = "INSERT INTO concertaciones (id_concertacion, id_usuario, id_gestion_cursos) VALUES ('$id_archivo','$usuario','$cursos_id')";
+
+        if ($acta_estado=="Acta valida"){
+
+
+            for ($i=0; $i<=$valores; $i++){
+            
+                $cursos_id=$_POST["check$i"];
+
+                $sql = "UPDATE gestion_cursos SET Estado_Curso='Activo' WHERE id_Gestion_Cursos=$cursos_id";
+
+                $resultado1 = $mysqli->query($sql);
+
+            }
+
+            $sql = "UPDATE files_concertaciones SET estado='Acta valida' WHERE id_file_concertaciones=$id_acta";
 
             $resultado1 = $mysqli->query($sql);
 
-            $sql = "UPDATE gestion_cursos SET Estado_Curso='Concertado acta' WHERE id_Gestion_Cursos=$cursos_id";
+
+        }
+
+        if ($acta_estado=="Acta NO valida"){
+
+
+            for ($i=0; $i<=$valores; $i++){
+            
+                $cursos_id=$_POST["check$i"];
+
+                $sql = "UPDATE gestion_cursos SET Estado_Curso='registrado' WHERE id_Gestion_Cursos=$cursos_id";
+
+                $resultado1 = $mysqli->query($sql);
+
+            }
+
+            $sql = "UPDATE files_concertaciones SET estado='Acta No valida' WHERE id_file_concertaciones=$id_acta";
 
             $resultado1 = $mysqli->query($sql);
 
 
-         }
+        }
 
     
+        $_SESSION['estado'] = "Se ha registrado correctamente el estado de la acta de concertacion";
+        $_SESSION['valor'] = 1;
+        
+        //var_dump($resultado1);
+        $mysqli->close();
+        header("Location: actas_concertacion.php"); 
 
-    $_SESSION['estado'] = "Se ha registrado correctamente acta de concertacion";
-    $_SESSION['valor'] = 1;
-    
-    //var_dump($resultado1);
-    $mysqli->close();
-    header("Location: Gestion_cursos.php"); 
-
-
-
-
-
-
-
-
-
-
-    break;
-
-
-
-
-
-
-case 13:   
     break;
 
 

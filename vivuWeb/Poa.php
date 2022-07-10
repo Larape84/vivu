@@ -53,8 +53,12 @@ if (isset($_SESSION['user_id'])) {
 
 
 <br>
+<?php
 
-<button onclick="ocultar()" class="btn btn-warning">Ocultar / Mostrar Registrar nuevos POA</button>
+if ($_SESSION['alianza']==1){}else{echo '
+
+<button onclick="ocultar()" class="btn btn-warning">Ocultar / Mostrar Registrar nuevos POA</button>';}
+?>
 
 <div class="ocular" id="ocultar" name="ocultar" >
 <div class="container center-fluid">
@@ -135,10 +139,16 @@ if (isset($_SESSION['user_id'])) {
 
         $consulta="SELECT * FROM asignar_municipios, poa WHERE poa.id_asignar_municipios=asignar_municipios.id ORDER BY poa.id_poa DESC";
       
-      }else{
+      }if ($_SESSION['rol']==3){
 
         $consulta='SELECT * FROM asignar_municipios, poa WHERE poa.id_asignar_municipios=asignar_municipios.id AND asignar_municipios.id_responsable='.$id.' AND asignar_municipios.estado="activo" ORDER BY poa.id_poa DESC';
         
+        
+        
+      }if ($_SESSION['alianza']==1){
+
+        
+        $consulta='SELECT * FROM alianza_municipio, poa WHERE alianza_municipio.poa_id=poa.id_poa AND alianza_municipio.estado="activo" AND alianza_municipio.id_User='.$_SESSION['user_id'].' ORDER BY poa.id_poa DESC';
         
         
       }
@@ -173,10 +183,11 @@ if (isset($_SESSION['user_id'])) {
 
                      echo '
                     <td class="gfgid" style="display:none" >'.$row->id_poa.'</td> 
-                    <td> 
-                    <button class="gfgselect btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span ></span>Editar</button>
-                    <button class="gfgdelete btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete"><span ></span>Borrar</button>
-
+                    <td>';
+                    if ($_SESSION['alianza']==1){}else{echo '<button class="gfgselect btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span ></span>Editar</button>
+                    
+                    <button class="gfgdelete btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete"><span ></span>Borrar</button>';}
+                    echo '
                     <a href=Gestion_cursos.php?id='.$row->id_poa.' <button class="gfg btn btn-warning btn-xs" ><span ></span>Ver Cursos</button></a> 
 
                     <button class="gfgenlace btn btn-success btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropenlace"><span ></span>Enlace</button>

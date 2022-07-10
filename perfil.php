@@ -132,7 +132,7 @@ if (isset($_SESSION['user_id'])) {
           <div class="col-md-8">
             <h2 class="text-center">Editar datos de usuario</h2>
             <hr>
-            <form class="simple_form edit_user" id="edit_user" enctype="multipart/form-data" action="save-perfil.php" accept-charset="UTF-8" method="post">
+            <form class="simple_form edit_user" id="edit_user" enctype="multipart/form-data" action="save-user-edit.php" accept-charset="UTF-8" method="post">
             
               <div class="form-row">
                 <div class="form-group col-md-6">

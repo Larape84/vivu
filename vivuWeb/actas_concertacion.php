@@ -121,8 +121,9 @@
   <button type="button" id="ver_cursos" hidden class="ver_cursos btn btn-primary mb-3" onclick="buscar($('#cedula').val());" >Ver cursos concertados</button>
   <div class="resultado" id="resultado" name="resultado"></div>  
 
-  
+  <div class="inactivo" id="inactivo" name="inactivo"></div>
   </form>
+  
   </div>
   </div>
 
@@ -166,7 +167,9 @@ $(function () {
                           
    //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
                      var a="";
+                     var b="";
                          a = $(this).parents("tr").find(".gfgid_concertaciones").text();
+                         b = $(this).parents("tr").find(".gfgestado").text();
                     
                     var p = "";
 
@@ -175,6 +178,54 @@ $(function () {
     
                     $("#cursos_ver").empty();
                     $("#cursos_ver").append(p);
+                    $('#cursos_ver').css('display', 'block');
+                    $('#resultado').css('display', 'block');
+                    $("#inactivo").empty();
+
+  if(b=="Acta No valida"){
+                      z="";
+                      z+=' <form>'+
+                    '<div class="form-group">'+
+                      '<label for="gfgnombres">Mensaje</label>'+
+                      '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede modificar esta acta, ya fue revisada y su estado es "Acta No valida"</textarea>'+
+                    '</div>';
+                    z+='<div class="modal-footer">'+
+
+       '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+       
+      '</div></form>'
+      $("#inactivo").empty();
+      $("#inactivo").append(z);
+      $('#cursos_ver').css('display', 'none');
+      $('#resultado').css('display', 'none');
+                    }
+
+      if (b=="Acta valida"){
+        z="";
+        z+=' <form>'+
+                    '<div class="form-group">'+
+                      '<label for="gfgnombres">Mensaje</label>'+
+                      '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede modificar esta acta, ya fue revisada y su estado es "Acta valida"</textarea>'+
+                    '</div>';
+                    z+='<div class="modal-footer">'+
+
+       '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+       
+      '</div></form>';
+      
+      $("#inactivo").empty();
+      $("#inactivo").append(z);
+      $('#resultado').css('display', 'none');
+      $('#cursos_ver').css('display', 'none');
+      
+      }
+      
+      
+
+       
+        
+      
+
                     
                 });
             });

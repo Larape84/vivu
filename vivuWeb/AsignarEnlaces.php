@@ -118,10 +118,10 @@ include "header.php"
     <select class="form-select" aria-label="Default select example" id='poa' name='poa' required>
   <option selected value=0></option>
   <?php
-  $consulta="SELECT poa.id, poa.Nombre_Poa, asignar_municipios.municipio, asignar_municipios.periodo, nombres, apellidos FROM poa, asignar_municipios, users WHERE poa.id_asignar_municipios=asignar_municipios.id AND users.id=asignar_municipios.id_responsable AND asignar_municipios.estado='activo'";
+  $consulta="SELECT poa.id_poa, poa.Nombre_Poa, asignar_municipios.municipio, asignar_municipios.periodo, nombres, apellidos FROM poa, asignar_municipios, users WHERE poa.id_asignar_municipios=asignar_municipios.id AND users.id=asignar_municipios.id_responsable AND asignar_municipios.estado='activo'";
 
   $resultado = $mysqli->query($consulta);
-  while ($obj = $resultado->fetch_object()) {echo '<option value="'.$obj->id.'">'.$obj->Nombre_Poa.' - Municipio de '.$obj->municipio.' - '.$obj->periodo.' - '.$obj->nombres." ".$obj->apellidos.'</option>';}
+  while ($obj = $resultado->fetch_object()) {echo '<option value="'.$obj->id_poa.'">'.$obj->Nombre_Poa.' - Municipio de '.$obj->municipio.' - '.$obj->periodo.' - '.$obj->nombres." ".$obj->apellidos.'</option>';}
   
   ?>
   </select>
@@ -169,7 +169,7 @@ include "header.php"
       <?php
 
 
-      $consulta="SELECT * FROM alianza_municipio, users WHERE alianza_municipio.id_User=users.id ORDER BY alianza_municipio.id_alianza DESC";
+      $consulta="SELECT *, alianza_municipio.municipio AS municipio1 FROM alianza_municipio, users WHERE alianza_municipio.id_User=users.id ORDER BY alianza_municipio.id_alianza DESC";
       
       $query = $mysqli->query($consulta);
 
@@ -179,7 +179,7 @@ include "header.php"
         
         echo '<tr> 
                     <td class="gfgnombres">'.$row->nombres.' '.$row->apellidos.'</td> 
-                    <td class="gfgmunicipio">'.$row->municipio.'</td>
+                    <td class="gfgmunicipio">'.$row->municipio1.'</td>
                     <td class="gfgperiodo">'.$row->periodo.'</td> 
                     <td class="gfgpoblacion">'.$row->enlace_poblacion.'</td> 
                     <td class="gfgestado">'.$row->estado.'</td> 
