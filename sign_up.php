@@ -46,22 +46,22 @@
           <i class="fa fa-user container-login-icon" aria-hidden="true"></i>
           <h3 class="text-center" >Registrarme</h3>
         </div>
-          <form class="simple_form" id="frmGuardarAprendiz">
+          <form class="simple_form" id="" action="./vivuWeb/operaciones.php" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label class="control-label" for="user_nombre">Nombres</label>
-                    <input class="form-control" required="" type="text" name="txtNombres" id="txtNombres" />
+                    <input class="form-control" required type="text" name="txtNombres" id="txtNombres" />
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputApellidos">Apellidos</label>
-                    <input class="form-control" required="" type="text" name="txtApellidos" id="txtApellidos"/>
+                    <input class="form-control" required type="text" name="txtApellidos" id="txtApellidos"/>
                 </div>
             </div> 
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputSexo">Sexo</label>
-                    <select class="form-control form-control-sm" required="" aria-required="true" type="text" name="txtSexo" id="txtSexo" >
+                    <select class="form-control form-control-sm" required aria-required="true" type="text" name="txtSexo" id="txtSexo" >
                         <option value="" disabled="" selected="">Seleccione...</option>
                         <option value="Femenino">Femenino</option>
                         <option value="Masculino">Masculino</option>
@@ -70,29 +70,31 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputFechaNacimiento">Fecha de nacimiento</label>
-                    <input class="form-control" required="" type="date" name="txtFechaNacimiento" id="txtFechaNacimiento"/>
+                    <input class="form-control" required type="date" name="txtFechaNacimiento" id="txtFechaNacimiento"/>
                 </div>
             </div>  
             
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputDireccion">Dirección de correo electrónico</label>
-                    <input class="form-control" required="required" type="email" name="txtCorreo" id="txtCorreo" />
+                    <input class="form-control" required type="email" name="txtCorreo" id="txtCorreo" />
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputContrasena">Contraseña actual</label>
-                    <input class="form-control" autocomplete="current-password"  aria-required="true" type="password" name="txtPassword" id="txtPassword" />
+                    <input class="form-control" required  aria-required="true" type="password" name="txtPassword" id="txtPassword" />
                 </div>
             </div> 
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputTipoDocumento">Tipo documento</label>
-                    <select class="form-control form-control-sm" name="txtTipoDocumento" id="txtTipoDocumento">
+                    <select required class="form-control form-control-sm" name="txtTipoDocumento" id="txtTipoDocumento">
                         <option value="" disabled="" selected="">Seleccione...</option>
                         <option value="Cedula de Ciudadanía">Cedula de Ciudadanía</option>
                         <option value="Cedula de Extranjeria">Cedula de Extranjeria</option>
                         <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                        <option value="Pep">Pep</option>
+                        <option value="Ppt">Ppt</option>
                     </select>              
                 </div>
                 <div class="form-group col-md-6">
@@ -108,14 +110,20 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputMunicipio">Municipio</label>
-                    <input class="form-control" required="" type="text" name="txtMunicipio" id="txtMunicipio" />
+                    <input class="form-control" required type="text" name="txtMunicipio" id="txtMunicipio" />
                 </div>
+
+                <div hidden class="form-group col-md-6">
+                    <label for="operacion"></label>
+                    <input class="form-control" value="14" type="text" name="operacion" id="operacion" />
+                </div>
+
             </div>
             
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label class="control-label" for="user_tipo_de_poblacion_id">Tipo de poblacion</label>
-                    <select class="form-control select" name="txtTipoPoblacion" id="txtTipoPoblacion">
+                    <select class="form-control select" name="txtTipoPoblacion" id="txtTipoPoblacion" required>
                         <option value="" disabled="" selected="">Seleccione...</option>
                         <option value="Desplazados por la violencia">Desplazados por la violencia</option>
                         <option value="Víctimas del conflicto armado">Víctimas del conflicto armado</option>
@@ -144,7 +152,7 @@
 
             <div class="form-row mt-2">
               <div class="form-group col-md-12">
-                  <button type="button" id="btnGuardarAprendiz" class="btn btn-outline-primary btn-block">Registrar</button>
+                  <button type="submit" id="" class="btn btn-outline-primary btn-block">Registrar</button>
                   <a href="sign_in.php"  class="btn btn-outline-primary btn-block mt-1">Iniciar sesión</a>      
               </div>
             </div>

@@ -9,7 +9,8 @@ $Correo_Electronico=$_POST['txtCorreo'];
 
 if (!empty($_POST['txtCorreo'])) {
 
-	$sql="SELECT  count(password) As ConteoPass,email, password  FROM users WHERE email = '$Correo_Electronico'";
+	$sql="SELECT  count(password) As ConteoPass,email, password, documento  FROM users WHERE documento = '$Correo_Electronico'";
+
 	$result_login = mysqli_fetch_row(mysqli_query($conexion,$sql));
 	$user = null;
   
@@ -23,12 +24,14 @@ if (!empty($_POST['txtCorreo'])) {
 $Clave_Recuperada=$user[2];
 $Correo_Recuperado=$user[1];
 $Conteo=$user[0];
+$cedula=$user[3];
 
-if (($Conteo>0) && ($Correo_Electronico==$Correo_Recuperado)) {
+if (($Conteo>0) && ($Correo_Electronico==$cedula)) {
+  
   ini_set( 'display_errors', 1 );
   error_reporting( E_ALL );
   $from = "recuperar-clave@vivu.com.co";
-  $to = $Correo_Electronico.",recuperar-clave@vivu.com.co";
+  $to = $Correo_Recuperado.",recuperar-clave@vivu.com.co";
   $subject = "Restablecimiento de Clave";
   $message = "Estimado usuario:
 
@@ -36,7 +39,7 @@ if (($Conteo>0) && ($Correo_Electronico==$Correo_Recuperado)) {
   Usted ha solicitado el restablecimiento de su contraseña en VIVU SENA. 
   Para ingresar por favor introduce la siguiente clave: ".$Clave_Recuperada.", en 
   el siguiente enlace: http://vivu.com.co/sign_in.php, recuerda
-  que tu usuario es tú correo electrónico: ".$Correo_Electronico."
+  que tu usuario es tú correo electrónico: ".$Correo_Recuperado."
 
 
 

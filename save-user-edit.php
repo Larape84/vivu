@@ -1,5 +1,5 @@
 <?php
-require 'database.php';
+require './cursos/clases/conexion.php';
 
 
 include_once 'config.inc.php';

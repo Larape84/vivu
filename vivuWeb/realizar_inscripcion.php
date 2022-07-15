@@ -133,10 +133,28 @@ if ($modo_Guardar==1){
 
     $resultado1 = $mysqli->query($sql);
 
-    $mysqli->close();
+    
     $_SESSION['estado'] = "Se ha registrado Correctamente en el Curso";
     $_SESSION['valor'] = 1;
-    header("Location: CursosReg.php");
+
+    $sql = "SELECT COUNT(*) AS inscrito FROM cursos_detalle WHERE cursos_detalle.id_gestion_cursos=".$curso;
+
+    $resultado1 = $mysqli->query($sql);
+    
+    while ($row = $resultado1->fetch_object()) {
+        $inscrito=$row->inscrito;
+         }
+    
+         if ($inscrito>25){
+    
+            $sql = "UPDATE gestion_cursos SET Estado_Curso='Cerrado por alta demanda' WHERE id_Gestion_Cursos=".$curso;
+    
+            $resultado1 = $mysqli->query($sql);
+    
+         }
+
+   
+    header("Location: cursosReg.php");
 }
 
 if ($modo_Guardar==2){
@@ -189,10 +207,27 @@ include 'conexion1.php';
     $sql = "INSERT INTO cursos_detalle (id_users, id_gestion_cursos, modo_Documento, id_Docuemnto) VALUES ('$usuario','$curso','documento anexo','$id_archivo')";
 
     $resultado1 = $mysqli->query($sql);
-    $mysqli->close();
+    
     $_SESSION['estado'] = "Se ha registrado Correctamente en el Curso";
     $_SESSION['valor'] = 1;
-    header("Location: CursosReg.php");
+
+    $sql = "SELECT COUNT(*) AS inscrito FROM cursos_detalle WHERE cursos_detalle.id_gestion_cursos=".$curso;
+
+$resultado1 = $mysqli->query($sql);
+
+while ($row = $resultado1->fetch_object()) {
+    $inscrito=$row->inscrito;
+     }
+
+     if ($inscrito>25){
+
+        $sql = "UPDATE gestion_cursos SET Estado_Curso='Cerrado por alta demanda' WHERE id_Gestion_Cursos=".$curso;
+
+        $resultado1 = $mysqli->query($sql);
+
+     }
+     
+    header("Location: cursosReg.php");
 
 }
 
@@ -203,14 +238,40 @@ include 'conexion1.php';
 $sql = "INSERT INTO cursos_detalle (id_users, id_gestion_cursos, modo_Documento) VALUES ('$usuario','$curso','entregar doc fisico')";
 
 $resultado1 = $mysqli->query($sql);
-    $mysqli->close();
+    
     $_SESSION['estado'] = "Se ha registrado Correctamente en el Curso";
     $_SESSION['valor'] = 1;
-   header("Location: CursosReg.php");
 
 
 
+$sql = "SELECT COUNT(*) AS inscrito FROM cursos_detalle WHERE cursos_detalle.id_gestion_cursos=".$curso;
+
+$resultado1 = $mysqli->query($sql);
+
+while ($row = $resultado1->fetch_object()) {
+    $inscrito=$row->inscrito;
+     }
+
+     if ($inscrito>25){
+
+        $sql = "UPDATE gestion_cursos SET Estado_Curso='Cerrado por alta demanda' WHERE id_Gestion_Cursos=".$curso;
+
+        $resultado1 = $mysqli->query($sql);
+
+     }
+     
+   header("Location: cursosReg.php");
+
+
+   
 }
+
+
+
+
+
+
+
 
 ?>
 

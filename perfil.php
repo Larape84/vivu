@@ -248,7 +248,7 @@ if (isset($_SESSION['user_id'])) {
               </div>
 
               <div class="form-row">
-                <div class="form-group col-md-12">
+                <div hidden class="form-group col-md-12">
                   <input type="hidden" value="<?php echo $user['id'];?>" name="txtCodigo">
                   <input type="submit" name="commit" value="Actualizar datos" class="btn btn-outline-primary btn-block" data-disable-with="Actualizar datos" />
                 </div>

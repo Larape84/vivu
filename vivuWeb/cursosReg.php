@@ -186,9 +186,10 @@ while ($row = $query->fetch_object()) {
             <label for="InputDocumento" class="visually-hidden">Ingrese su nro de documento</label>
             <input type="number" class="form-control" id="cedula"  name="cedula" placeholder="nro documento" required>
             <div class="col-auto col-4">
-            <input type="number" class="form-control" id="anio"  name="anio" placeholder="año" required>
+            <input type="number" class="form-control" id="anio"  name="anio" placeholder="año nac" required>
+            <input type="number" hidden value="" class="form-control" id="curso"  name="curso" placeholder="" >
             </div>
-            <button type="button" class="btn btn-primary mb-3" onclick="buscar($('#cedula','#anio').val());" >Verificar</button>
+            <button type="button" class="btn btn-primary mb-3" onclick="buscar($('#cedula','#anio','#curso').val());" >Verificar</button>
           </div>
           <div class="col-auto">
           </div>
@@ -210,6 +211,30 @@ while ($row = $query->fetch_object()) {
 
 <script type="text/javascript">
 
+function pais(){
+
+        if (document.getElementById("#Pais")){
+          pais= document.getElementById("#Pais").value;
+          alert(pais);
+           
+            if (pais =="Colombia") {
+                $("#Departamento").html("<OPTION value=9>boaco</OPTION><OPTION value=59>teustepe</OPTION>");
+            }
+            else if (pais =="Venezuela") {
+                $("#Departamento").html("<OPTION value=01>jinotepe</OPTION><OPTION value=41>diriamba</OPTION>");
+            };
+
+
+        }
+          
+          }
+    
+
+
+
+
+
+
 var c="";
 
 
@@ -217,6 +242,7 @@ var c="";
 function cerrar() {
     document.querySelector("#cedula").value=""
     document.querySelector("#anio").value=""
+    document.querySelector("#curso").value=""
     $("#resultado").empty();
     
 
@@ -225,7 +251,7 @@ function cerrar() {
   
 
 
-function buscar(cedula,anio) {
+function buscar(cedula,anio, curso) {
   $("#resultado").empty();
   if (document.getElementById("cedula").value==""){
   alert("Por favor ingrese su nro de documento");
@@ -238,8 +264,9 @@ if (document.getElementById("anio").value==""){
 
         var cedula = document.getElementById("cedula").value;
         var anio = document.getElementById("anio").value;
+        var curso = document.getElementById("curso").value;
 
-     var parametros = {"cedula": cedula,"anio": anio};
+     var parametros = {"cedula": cedula,"anio": anio, "curso":curso };
      
 $.ajax({
     data:parametros,
@@ -255,7 +282,7 @@ $.ajax({
 }
 
 
-
+var c="";
 
 $(function () {
                 // ON SELECTING ROW
@@ -263,6 +290,7 @@ $(function () {
    //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
                     var a = $(this).parents("tr").find(".gfgNombre_Curso").text();
                         c = $(this).parents("tr").find(".gfgid").text();
+                        $("#curso").val(c);
                     
                     var p = "";
                     // CREATING DATA TO SHOW ON MODEL
@@ -307,7 +335,8 @@ var busqueda = document.getElementById('buscar');
     busqueda.addEventListener('keyup', buscaTabla);
 
     var opcionDocumento="";
-     opcionDocumento = document.getElementById("documento").value;
+    if (document.getElementById("documento")){opcionDocumento =document.getElementById("documento").value} 
+      
 
     function seleccionDocumento() { 
      opcionDocumento = document.getElementById("documento").value;
@@ -590,6 +619,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       
 
+
+
+
+
+
+
+
+
+      
        
 
       

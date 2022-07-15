@@ -123,6 +123,41 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
   <div class="container down">
 
     <div class="container">
+
+
+    <?php
+    
+
+    if (!isset($_SESSION['estado'])){
+      $_SESSION['estado']='';
+      $_SESSION['valor']='';
+    }
+
+        if($_SESSION['valor']==1){
+            ?>
+            <div class="alert alert-dismissible alert-success" style="margin-top:20px;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <span class="icon-checkmark"></span> <?php echo $_SESSION['estado'] ; ?>
+            </div>
+            <?php
+
+            unset($_SESSION['estado']);
+
+        }elseif($_SESSION['estado']==!null){
+          ?>
+            <div class="alert alert-dismissible alert-danger" style="margin-top:20px;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <span class="icon-checkmark"></span> <?php echo "Operacion NO Realizada :".$_SESSION['estado'] ; ?>
+            </div>
+            <?php
+
+           unset($_SESSION['estado']);
+
+        }
+    ?>
+
+
+
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
           <div class="full-width container-login">

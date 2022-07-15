@@ -1,5 +1,10 @@
 <?php
+
+header("Location: index.php");
+
 session_start();
+
+
 
 require_once "cursos/clases/conexion.php";
 $obj= new conectar();

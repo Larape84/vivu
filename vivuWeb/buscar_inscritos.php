@@ -3,10 +3,13 @@
 
     $id_cedula=$_POST["cedula"];
     $anio=$_POST["anio"];
+    $curso=$_POST["curso"];
 
     
 
 include "conexion1.php";
+
+
 
 
 
@@ -21,12 +24,36 @@ $query = $mysqli->query($consulta);
 
  
 while ($row = $query->fetch_object()) {
-     
+    
+    $id_users=$row->id;
+
     $fecha=$row->fechaNacimiento;
 
     $fecha1=explode("-",$fecha);
 
     if($fecha1[0]==$anio){
+    
+    $consulta1="SELECT * FROM cursos_detalle WHERE id_users=$id_users AND id_gestion_cursos=$curso";
+    
+    $query1 = $mysqli->query($consulta1);
+
+
+
+    if ($query1->num_rows>0){
+
+        echo 'Sr. usuario usted ya se encuentra inscrito en esta formacion
+
+        <div class="modal-footer">
+
+        <button type="button" onclick="cerrar()" style="display:block;" id="gfgcerrar" name="gfgcerrar" class="gfgcerrar btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        
+        
+       </div>';
+    }
+
+
+    if ($query1->num_rows==0){
+    
 
     echo '
           <form enctype="multipart/form-data" action="realizar_inscripcion.php" method="POST">
@@ -108,7 +135,7 @@ while ($row = $query->fetch_object()) {
                         <option disabled="" selected="" value="">Seleccione</option>
                         <option value="1">Anexar 1 solo Documento en PDF</option>
                         <option value="2">Tomar Foto Documento por ambas caras</option>
-                        <option value="3">Entregar Documento en fisico</option>
+                        
                         </select>
                 </div>
 
@@ -168,7 +195,7 @@ while ($row = $query->fetch_object()) {
             <div class="form-group col-md-6">
 
                 <label class="control-label" for="Pais"> Indique Pais de Nacimiento</label>
-                <select class="form-control select" name="Pais" id="Pais" required>
+                <select class="form-control select" name="Pais"  id="Pais" required>
                     <option value="">Seleccione</option>
                     <option value="Colombia">Colombia</option>
                     <option value="Venezuela">Venezuela</option>
@@ -180,11 +207,9 @@ while ($row = $query->fetch_object()) {
 
             <div class="form-group col-md-6">
                     <label class="control-label" for="Departamento">Departamento de Nacimiento</label>
-                    <select class="form-control select" name="Departamento" id="Departamento" required>
-                        <option value="">Seleccione</option>
-                        <option value="Colombia">Colombia</option>
-                        <option value="Venezuela">Venezuela</option>
-                    </select>              
+                    <input class="form-control input" name="Departamento" id="Departamento" required>
+                       
+                                  
             </div>
             
             </div> 
@@ -198,11 +223,9 @@ while ($row = $query->fetch_object()) {
             <div class="form-group col-md-6">
 
                 <label class="control-label" for="Municipio"> Municipio de nacimiento</label>
-                <select class="form-control select" name="Municipio" id="Municipio" required>
-                    <option value="">Seleccione</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Venezuela">Venezuela</option>
-                </select>              
+                <input class="form-control input" name="Municipio" id="Municipio" required>
+                    
+                
              </div>
 
                     
@@ -236,11 +259,9 @@ while ($row = $query->fetch_object()) {
             <div class="form-group col-md-6">
 
                 <label class="control-label" for="Departamento2">Departamento expedicion del documento</label>
-                <select class="form-control select" name="Departamento2" id="Departamento2" required>
-                    <option value="">Seleccione</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Venezuela">Venezuela</option>
-                </select> 
+                <input class="form-control input" name="Departamento2" id="Departamento2" required>
+                   
+
 
             </div>
 
@@ -249,11 +270,10 @@ while ($row = $query->fetch_object()) {
                 <div class="form-row">
             <div class="form-group col-md-12">
                 <label class="control-label" for="Municipio2">Municipio expedicion del documento</label>
-                <select class="form-control select" name="Municipio2" id="Municipio2" required>
-                    <option value="">Seleccione</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Venezuela">Venezuela</option>
-                </select>              
+                <input class="form-control input" name="Municipio2" id="Municipio2" required>
+                    
+                
+
                     </div>
                     </div> 
                     
@@ -275,7 +295,7 @@ while ($row = $query->fetch_object()) {
 
 
 
-          </form>';
+          </form>';}
 
   
 
@@ -285,7 +305,13 @@ while ($row = $query->fetch_object()) {
 
 }else {
 
-    echo "Por favor verifique la informacion ingresada";
+    echo 'Por favor verifique la informacion ingresada
+    
+    <div class="modal-footer">
+
+    <button type="button" onclick="cerrar()" style="display:block;" id="gfgcerrar" name="gfgcerrar" class="gfgcerrar btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+    
+   </div>';
 }
 
 }
@@ -407,7 +433,7 @@ if ($query->num_rows==0){
                         <option disabled="" selected="" value="">Seleccione</option>
                         <option value="1">Anexar 1 solo Documento en PDF</option>
                         <option value="2">Tomar Foto Documento por ambas caras</option>
-                        <option value="3">Entregar Documento en fisico</option>
+                       
                         </select>
                 </div>
 
@@ -484,11 +510,11 @@ if ($query->num_rows==0){
 
         <div class="form-group col-md-6">
                 <label class="control-label" for="Departamento">Departamento de Nacimiento</label>
-                <select class="form-control select" name="Departamento" id="Departamento" required>
-                    <option value="">Seleccione</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Venezuela">Venezuela</option>
-                </select>              
+                <input class="form-control input" name="Departamento" id="Departamento" required>
+                   
+                
+
+
         </div>
         
         </div> 
@@ -502,11 +528,9 @@ if ($query->num_rows==0){
         <div class="form-group col-md-6">
 
             <label class="control-label" for="Municipio">Indique su Municipio de nacimiento</label>
-            <select class="form-control select" name="Municipio" id="Municipio" required>
-                <option value="">Seleccione</option>
-                <option value="Colombia">Colombia</option>
-                <option value="Venezuela">Venezuela</option>
-            </select>              
+           <input class="form-control input" name="Municipio" id="Municipio" required>
+                
+           
          </div>
 
                 
@@ -540,11 +564,9 @@ if ($query->num_rows==0){
         <div class="form-group col-md-6">
 
             <label class="control-label" for="Departamento2">Departamento expedicion del documento</label>
-            <select class="form-control select" name="Departamento2" id="Departamento2" required>
-                <option value="">Seleccione</option>
-                <option value="Colombia">Colombia</option>
-                <option value="Venezuela">Venezuela</option>
-            </select> 
+            <input class="form-control input" name="Departamento2" id="Departamento2" required>
+               
+
 
         </div>
 
@@ -553,11 +575,10 @@ if ($query->num_rows==0){
             <div class="form-row">
         <div class="form-group col-md-12">
             <label class="control-label" for="Municipio2">Municipio expedicion del documento</label>
-            <select class="form-control select" name="Municipio2" id="Municipio2" required>
-                <option value="">Seleccione</option>
-                <option value="Colombia">Colombia</option>
-                <option value="Venezuela">Venezuela</option>
-            </select>              
+            <input class="form-control input" name="Municipio2" id="Municipio2" required>
+                
+            
+            
                 </div>
                 </div> 
                 

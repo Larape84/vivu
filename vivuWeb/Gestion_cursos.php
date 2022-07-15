@@ -52,7 +52,11 @@ $id=$_SESSION['id_poa'];
 <?php
 
 if ($_SESSION['alianza']==1){}else{echo '<button onclick="ocultar()" class="btn btn-warning">Ocultar / Mostrar Registrar Nuevos Cursos</button>
-  <button  class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdropconcertaciones" >Mis Concertaciones</button>';}
+  <button  class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdropconcertaciones" >Mis Concertaciones</button>
+  
+  <button  class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdropentregacurso" >Formaciones Pendientes por entregar al centro de formacion</button>
+  
+  ';}
 
 ?>
 
@@ -65,7 +69,7 @@ if ($_SESSION['alianza']==1){}else{echo '<button onclick="ocultar()" class="btn 
 <form action="operaciones.php" method="POST">
   <div class="form-group">
   <br>
-    <label for="exampleInputEmail1">Centro de Fromacion</label>
+    <label for="exampleInputEmail1">Centro de Formacion</label>
     <select name="Centro_Formacion" id="Centro_Formacion" class="form-select" required>
     <option selected value=""></option>
     <option select value="CENTRO DE COMERCIO Y SERVICIOS">CENTRO DE COMERCIO Y SERVICIOS</option>
@@ -129,6 +133,7 @@ if ($_SESSION['alianza']==1){}else{echo '<button onclick="ocultar()" class="btn 
     <option select value="Abril">Abril</option>
     <option select value="Mayo">Mayo</option>
     <option select value="Junio">Junio</option>
+     <option select value="Julio">Julio</option>
     <option select value="Agosto">Agosto</option>
     <option select value="Septiembre">Septiembre</option>
     <option select value="Octubre">Octubre</option>
@@ -322,6 +327,7 @@ while ($row = $query->fetch_object()) {
     <option select value="Abril">Abril</option>
     <option select value="Mayo">Mayo</option>
     <option select value="Junio">Junio</option>
+    <option select value="Julio">Julio</option>
     <option select value="Agosto">Agosto</option>
     <option select value="Septiembre">Septiembre</option>
     <option select value="Octubre">Octubre</option>
@@ -339,7 +345,7 @@ while ($row = $query->fetch_object()) {
     <div class="form-group row">
     <div class="col-sm-3">Cursos concertados</div>
     <div class="col-sm-9">
-<?php
+    <?php
 
 $consulta='SELECT * FROM gestion_cursos, poa WHERE poa.id_poa='.$_SESSION['id_poa'].' AND poa.id_poa=gestion_cursos.id_nombre_poa AND Estado_Curso="Concertado por validar"';
 
@@ -376,6 +382,10 @@ $valores=$valores+1;
 
 
 
+
+
+
+
                 <div class="mb-3">
                 <label for="formFile" class="form-label">Seleccione Acta de concertacion</label>
                 <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
@@ -399,6 +409,154 @@ $valores=$valores+1;
       </div>
     </div>
   </div>
+
+
+
+
+
+
+<script type="text/javascript">
+
+function verificar(){
+var suma = 0;
+var los_cboxes = document.getElementsByClassName('gfg form-check-input');
+j = los_cboxes.length;
+
+for (var i = 0; i < j; i++) {
+    
+    if(los_cboxes[i].checked == true){
+    suma++;
+    }
+}
+ 
+if(suma == 0){
+alert('Debe seleccionar por lo menos una formacion');
+return false;
+}else{
+return true;
+}
+ 
+}
+
+</script>
+
+
+
+
+  <div class="modal fade" id="staticBackdropentregacurso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Paquetes por entregar a los centros de formacion</h5>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+
+       <form action="operaciones.php" method="POST" enctype="multipart/form-data" name = "form" onsubmit ="return verificar();">
+
+       <div class="form-group">
+    <label for="Mes_Poa">Mes entrega del acta</label>
+    <select name="Mes_Poa" id="Mes_Poa" class="form-select" required>
+    <option selected value=""></option>
+    <option select value="Enero">Enero</option>
+    <option select value="Febrero">Febrero</option>
+    <option select value="Marzo">Marzo</option>
+    <option select value="Abril">Abril</option>
+    <option select value="Mayo">Mayo</option>
+    <option select value="Junio">Junio</option>
+    <option select value="Agosto">Agosto</option>
+    <option select value="Septiembre">Septiembre</option>
+    <option select value="Octubre">Octubre</option>
+    <option select value="Noviembre">Noviembre</option>
+    <option select value="Diciembre">Diciembre</option>
+    </select> 
+    </div>
+
+    <div class="form-group">
+    <label for="Vigencia">Vigencia entrega del acta</label>
+    <input type="number" required class="form-control" id="Vigencia" name="Vigencia" aria-describedby="emailHelp" placeholder="">
+    <small id="emailHelp" class="form-text text-muted"></small>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-3">Formaciones cerradas por entregar</div>
+    <div class="col-sm-9">
+    <?php
+
+$consulta='SELECT * FROM gestion_cursos, poa WHERE poa.id_poa='.$_SESSION['id_poa'].' AND poa.id_poa=gestion_cursos.id_nombre_poa AND Estado_Curso="Cerrado por alta demanda"';
+
+$query = $mysqli->query($consulta);
+
+$valores=0;
+
+while ($row = $query->fetch_object()) {
+  
+  echo '   
+  
+<div class="form-check">
+  <input class="gfg form-check-input" type="checkbox" id="check'.$valores.'" name="check'.$valores.'" value="'.$row->id_Gestion_Cursos.'">
+  <label class="form-check-label" for="gridCheck1">
+  '.$row->Nombre_Curso." DEL MES DE ".$row->Mes_Poa." PARA EL ".$row->Centro_Formacion.'
+  </label>
+</div>';
+$valores=$valores+1;
+ }
+
+ if ($valores==0){
+
+  echo ' No existen formaciones pendientes por entregar al centro';
+ }
+
+?>
+      
+
+    </div>
+  </div>
+
+  <input style="display:none;" type="text" class="form-control" id="valores" name="valores" placeholder="" value="<?php echo $valores-1;?>">
+  <input style="display:none;" type="text" class="form-control" id="operacion" name="operacion" placeholder="" value="17">
+
+
+
+                <div class="mb-3">
+                <label for="formFile" class="form-label">Seleccione Acta de entrega al centro</label>
+                <!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
+                <input type="hidden" name="MAX_FILE_SIZE" value="300000000" />
+                <input required class="form-control" type="file" id="fileconcertacion" name="fileconcertacion" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf">
+                </div>
+                
+
+
+
+
+   
+    
+       </div>
+
+       <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+       <?php if (($valores-1)>-1){echo '<button type="submit" class="btn btn-primary">Registrar</button>';}?>
+      </div>
+
+      </form>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
 
@@ -500,7 +658,41 @@ function required(){
 
 
 
-  }else{
+  }else if (g=="Cerrado por baja demanda"){
+
+
+p+=' <form>'+
+                '<div class="form-group">'+
+                  '<label for="gfgnombres">Mensaje</label>'+
+                  '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede modificar un curso que se encuentra cerrado por baja demanda</textarea>'+
+                '</div>';
+                p+='<div class="modal-footer">'+
+
+   '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+   
+  '</div></form>'
+
+
+
+
+}else if (g=="Cerrado por baja demanda"){
+
+
+p+=' <form>'+
+                '<div class="form-group">'+
+                  '<label for="gfgnombres">Mensaje</label>'+
+                  '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede modificar un curso que se encuentra cerrado por alta demanda</textarea>'+
+                '</div>';
+                p+='<div class="modal-footer">'+
+
+   '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+   
+  '</div></form>'
+
+
+
+
+}else{
    
    
   p+=' <div class="container center-fluid">'+
@@ -666,6 +858,40 @@ p+=' <form>'+
                 '<div class="form-group">'+
                   '<label for="gfgnombres">Mensaje</label>'+
                   '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede eliminar un curso que se encuentra activo, el mismo esta habilitado para inscripciones</textarea>'+
+                '</div>';
+                p+='<div class="modal-footer">'+
+
+   '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+   
+  '</div></form>'
+
+
+
+
+}else if (g=="Cerrado por baja demanda"){
+
+
+p+=' <form>'+
+                '<div class="form-group">'+
+                  '<label for="gfgnombres">Mensaje</label>'+
+                  '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede ELIMINAR un curso que se encuentra cerrado por baja demanda</textarea>'+
+                '</div>';
+                p+='<div class="modal-footer">'+
+
+   '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+   
+  '</div></form>'
+
+
+
+
+}else if (g=="Cerrado por baja demanda"){
+
+
+p+=' <form>'+
+                '<div class="form-group">'+
+                  '<label for="gfgnombres">Mensaje</label>'+
+                  '<textarea  type="text area" readonly required class="form-control" id="gfgmensaje" name="gfgmensaje">No se puede ELIMINAR un curso que se encuentra cerrado por alta demanda</textarea>'+
                 '</div>';
                 p+='<div class="modal-footer">'+
 

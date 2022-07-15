@@ -53,6 +53,18 @@ include "header.php"
     <a href="actas_concertacion.php" class="btn btn-primary">Seleccionar</a>
   </div>
 </div>
+
+</div>
+
+<div class="card border-dark mb-3" style="width: 24rem; height: 12rem">
+  <div class="card-body">
+    <h5 class="card-title">Gestion de usuarios</h5>
+    <p class="card-text">Asignar roles, modificar y actualizar usuarios</p>
+    <a href="usuarios.php" class="btn btn-primary">Seleccionar</a>
+  </div>
+</div>
+
+
 </div>
 
 

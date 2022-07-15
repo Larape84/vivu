@@ -20,7 +20,58 @@ $id=$_SESSION['id_curso'];
 
 <div class="container content-center">
 
-<form action="descargar.php" method="POST">
+<?php 
+
+$inscritos=0;
+$Nombre_Curso="";
+$estadocurso="";
+
+$sql = "SELECT Nombre_Curso, Estado_Curso FROM gestion_cursos WHERE id_Gestion_Cursos=".$_SESSION['id_curso'];
+
+$consulta = $mysqli->query($sql);
+
+while($row = $consulta->fetch_object()){
+
+  $Nombre_Curso=$row->Nombre_Curso;
+
+  $estadocurso=$row->Estado_Curso;
+
+}
+
+    
+
+    if (!isset($_SESSION['estado'])){
+      $_SESSION['estado']='';
+      $_SESSION['valor']='';
+    }
+
+        if($_SESSION['valor']==1){
+            ?>
+            <div class="alert alert-dismissible alert-success" style="margin-top:20px;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <span class="icon-checkmark"></span> <?php echo $_SESSION['estado'] ; ?>
+            </div>
+            <?php
+
+            unset($_SESSION['estado']);
+
+        }elseif($_SESSION['estado']==!null){
+          ?>
+            <div class="alert alert-dismissible alert-danger" style="margin-top:20px;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <span class="icon-checkmark"></span> <?php echo "Operacion NO Realizada :".$_SESSION['estado'] ; ?>
+            </div>
+            <?php
+
+           unset($_SESSION['estado']);
+
+        }
+  
+
+
+?>
+
+<form action="./files/descargar.php" method="POST">
 <div class="form-group">
     <label for="exampleFormControlTextarea1">Resumen inscritos</label>
     <textarea readonly class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
@@ -46,10 +97,19 @@ $id=$_SESSION['id_curso'];
 
 <div>
 <button class="btn btn-secondary" type="submit">Seleccionar</button>
+
 <?php
 
-if ($_SESSION['alianza']==1){}else{echo '
-<button class="btn btn-warning" type="button">Cerrar Curso por baja demanda</button>';}
+if ($_SESSION['alianza']==1){
+
+}else{ 
+  if ($estadocurso=="Activo"){
+    echo '
+<button class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#staticBackdropcerrarCurso"  type="button">Cerrar Programa de formacion</button>';}
+}
+
+
+
 ?>
 
 </div>
@@ -57,7 +117,7 @@ if ($_SESSION['alianza']==1){}else{echo '
 
 </form>
 
-
+</div>
 
 <br><br>
 <table id="tabla" class="table table-striped">
@@ -94,59 +154,55 @@ $query = $mysqli->query($consulta);
 //var_dump($query);
 
 while ($row = $query->fetch_object()) {
+  $inscritos=$inscritos+1;
   
     echo '<tr> 
 
     <td class="gfgmunicipio">'.$row->municipio.'</td>
-    <td class="gfgmunicipio">'.$row->tipodocumento.'</td>
-    <td class="gfgmunicipio">'.$row->documento.'</td>
-    <td class="gfgnombres">'.$row->nombres.' '.$row->apellidos.'</td> 
-    <td class="gfgperiodo">'.$row->telefono.'</td>   
-    <td class="gfgperiodo">'.$row->email.'</td>  
-    <td class="gfgperiodo">'.$row->tipoPoblacion.'</td>     
-    <td class="gfgperiodo">'.$row->modo_Documento.'</td>  ';
+    <td class="gfgtipodocumento">'.$row->tipodocumento.'</td>
+    <td class="gfgdocumento">'.$row->documento.'</td>
+    <td class="gfgnombrecompleto">'.$row->nombres.' '.$row->apellidos.'</td> 
+    <td class="gfgtelefono">'.$row->telefono.'</td>   
+    <td class="gfgemail">'.$row->email.'</td>  
+    <td class="gfgtipoPoblacion">'.$row->tipoPoblacion.'</td>     
+    <td class="gfgmodo_Documento">'.$row->modo_Documento.'</td>  ';
 
     $consulta2="SELECT * FROM no_inscritos_sofiaplus, users WHERE users.id = no_inscritos_sofiaplus.id_users AND no_inscritos_sofiaplus.id_users=".$row->id;
 
     $query2 = $mysqli->query($consulta2);
 
     if ($query2->num_rows>=1){echo'<td class="gfgperiodo">No</td> ' ;}else {echo'<td class="gfgperiodo">Si</td> ';}
+
     
+
     echo  '
-    <td class="gfgid" style="display:none" >'.$row->id.'</td> 
-    <td>'; 
+    <td class="gfgid" style="display:none" >'.$row->id_cursos_detalle.'</td> 
+    <td class="gfgEstado_Curso" style="display:none" >'.$row->Estado_Curso.'</td>'; 
 
     $consulta3="SELECT DISTINCT (id_users), ruta AS ruta1 FROM files, users WHERE users.id = files.id_users AND files.id_users=".$row->id;
     $query3 = $mysqli->query($consulta3);
-
+    echo '<td>';
     while ($row3 = $query3->fetch_object()) {
-
-      if ($row->modo_Documento=="documento anexo"){echo '<a href=./'.$row3->ruta1.' <button class="gfgdownload btn btn-warning btn-xs" ><span ></span>Descargar</button></a>';}
-
-      if ($_SESSION['alianza']==1){}else{echo '<button class="gfgselect btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span ></span>Borrar</button>
-      </td>
       
-  </tr>';}
 
+      if ($row->modo_Documento=="documento anexo"){echo '<a href=./'.$row3->ruta1.' <button class="gfgdownload btn btn-warning btn-xs" ><span> 
+      </span>Descargar</button> </a>';}
 
+     
+    
     }
 
+    if ($_SESSION['alianza']==1){}else{
+      if ($estadocurso=="Cerrado por baja demanda" ||$estadocurso=="Entregado al centro" ){}else{echo '<button class="gfgselect btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#staticBackdropdelete"> <span></span>Borrar</button>';}
 
+      echo '</td>
+
+    </tr>';}
+      
    
               
 }
 
-
-        
-
-
-
-// SELECT * FROM no_inscritos_sofiaplus, users, gestion_cursos
-// WHERE users.id = no_inscritos_sofiaplus.id_users
-// AND gestion_cursos.id_Gestion_Cursos=10
-// AND no_inscritos_sofiaplus.id_users=10590
-
-//var_dump($municipio);
 
  ?> 
 
@@ -161,7 +217,75 @@ while ($row = $query->fetch_object()) {
 
 
 
+<div class="modal fade" id="staticBackdropdelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Eliminar Registro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <div class="delete" id="delete"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
+
+
+<div class="modal fade" id="staticBackdropcerrarCurso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Cerrar Programa de Formacion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="estado modal-body">
+
+<form method="POST" action="operaciones.php">
+  <div class="form-group">
+    <label for="nombrecurso">Programa de formacion</label>
+    <input readonly type="text" required class="form-control" id="nombrecurso" name="nombrecurso" placeholder="Nombre persona enlace" value="<?php echo $Nombre_Curso;?>">
+  </div>
+
+  <div class="form-group">
+    <label for="inscritos">Inscritos</label>
+    <input  readonly type="text" required class="form-control" id="inscritos" name="inscritos" placeholder="" value="<?php echo $inscritos;?>">
+  </div> 
+
+  <div class="form-group">
+    <label for="Estado">Estado</label>
+    <select  type="text" required class="form-control select" id="Estado" name="Estado" placeholder="" value="">
+
+    <option selected disabled value=""><?php echo $estadocurso;?></option>
+    <option value="Cerrar Por baja demanda">Cerrar por baja demanda</option>  
+  </select>
+  </div> 
+
+<input hidden type="text" value="16" id="operacion" name="operacion">
+
+      <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+       <?php if ($estadocurso=="Cerrado por baja demanda" ||$estadocurso=="Concertado acta" ){
+
+       }
+       else{echo '<button type="submit" class="btn btn-danger">Realizar operacion</button>';}
+  ?>
+       
+      
+      
+      
+      </div></form>
+
+
+
+       <!-- <div class="estadocurso" id="estadocurso"></div>
+       <div class="entregadocentro" id="entregadocentro"></div>
+       <div class="botones" id="botones"></div> -->
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -188,6 +312,120 @@ var busqueda = document.getElementById('buscar');
     }
 
     busqueda.addEventListener('keyup', buscaTabla);
+
+
+    var a="";
+    $(function () {
+                // ON SELECTING ROW
+                $(".gfgselect").click(function () {
+   //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                    a="";
+                    b="";
+                    c="";
+                    d="";
+                    e="";
+                    f="";
+                    g="";
+                    h="";
+
+                    b = $(this).parents("tr").find(".gfgtipodocumento").text();
+                    c = $(this).parents("tr").find(".gfgdocumento").text();
+                    d = $(this).parents("tr").find(".gfgnombrecompleto").text();
+                    e = $(this).parents("tr").find(".gfgtelefono").text();
+                    f = $(this).parents("tr").find(".gfgemail").text();
+                    g = $(this).parents("tr").find(".gfgtipoPoblacion").text();
+                    a = $(this).parents("tr").find(".gfgid").text();
+                    h = $(this).parents("tr").find(".gfgEstado_Curso").text();
+                    
+                     
+
+                    var p="";
+                    
+                           
+  p+=' <form method="POST" action="operaciones.php">'+
+  '<div class="form-group">'+
+    '<label for="gfgnombres">Tipo Documento</label>'+
+    '<input readonly type="text" required class="form-control" id="gfgnombres" name="gfgnombres" placeholder="Nombre persona enlace" value="'+b+'">'+
+  '</div>'+
+
+  '<div class="form-group">'+
+    '<label for="gfgPersona_Enlace">Numero de Documento</label>'+
+    '<input  readonly type="text" required class="form-control" id="gfgPersona_Enlace" name="gfgPersona_Enlace" placeholder="" value="'+c+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgTelefono_Enlace">Nombres y apellidos</label>'+
+    '<input readonly type="text" required class="form-control" id="gfgTelefono_Enlace" name="gfgTelefono_Enlace" placeholder="" value="'+d+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgmunicipio">Correo Electronico</label>'+
+    '<input readonly type="text" class="form-control" id="gfgmunicipio" name="gfgmunicipio" placeholder="" value="'+f+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgmunicipio">Telefono</label>'+
+    '<input readonly type="text" required class="form-control" id="gfgOcupacion_Productiva" name="gfgOcupacion_Productiva" placeholder="" value="'+e+'">'+
+  '</div> '+
+
+  '<div class="form-group">'+
+    '<label for="gfgPoblacion">Poblacion</label>'+
+    '<input readonly type="text" class="form-control" id="gfgPoblacion" name="gfgPoblacion" placeholder="" value="'+g+'">'+
+  '</div> '+
+  
+  '<input style="diplay:none;" hidden type="text" class="form-control" id="operacion" name="operacion" placeholder="" value="15">'+
+  '<input style="display:none;" type="text" class="form-control" id="poa_id" name="poa_id" placeholder="" value="'+a+'">'
+
+  ;
+  p+='<div class="modal-footer">'+
+       '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>'+
+       '<button type="submit" class="btn btn-danger">Borrar</button>'+
+      '</div></form>'
+
+      
+                    $("#delete").empty();
+                    //WRITING THE DATA ON MODEL
+                    $("#delete").append(p);
+                   
+                  });
+            });
+
+
+
+        $(document).ready(function () {
+
+        $("#Pais").change(function () {
+
+          alert(this.value);
+           
+            if (this.value =="Venezuela") {
+                $("#Departamento").html("<OPTION value=9>boaco</OPTION><OPTION value=59>teustepe</OPTION>");
+            }
+            else if (this.value =="Colombia") {
+                $("#Departamento").html("<OPTION value=01>jinotepe</OPTION><OPTION value=41>diriamba</OPTION>");
+            }
+            
+            
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </script>
